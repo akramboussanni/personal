@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Akram Boussanni">
   <rect width="64" height="64" rx="12" fill="#0b0d10"/>
   <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12.5 46L19.5 24" stroke="#8f98a3" stroke-width="3.4"/>
-    <path d="M20.5 46L27.5 24" stroke="#8f98a3" stroke-width="3.4"/>
-    <path d="M31.5 50L39.5 18L47.5 50" stroke="#d0d5db" stroke-width="4.5"/>
-    <path d="M35.5 38H43.5" stroke="#d0d5db" stroke-width="4.5"/>
+    <path d="M14.5 43L21.5 21" stroke="#8f98a3" stroke-width="3.4"/>
+    <path d="M22.5 43L29.5 21" stroke="#8f98a3" stroke-width="3.4"/>
+    <path d="M33.5 47L41.5 15L49.5 47" stroke="#d0d5db" stroke-width="4.5"/>
+    <path d="M37.5 35H45.5" stroke="#d0d5db" stroke-width="4.5"/>
   </g>
 </svg>

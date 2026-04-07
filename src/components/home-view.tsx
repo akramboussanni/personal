@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import type { MouseEvent as ReactMouseEvent } from "react";
 import { BlogPost, Project, SiteConfig } from "@/lib/types";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { SingleSkillIcon, TinySkillIcons } from "@/components/skill-icons";
@@ -18,6 +19,7 @@ export function HomeView({ site, projects, blogs }: Props) {
   const [secondIndex, setSecondIndex] = useState(0);
   const [thirdIndex, setThirdIndex] = useState(0);
   const [activeSkill, setActiveSkill] = useState(site.coreSkills[0] || "");
+  const [featuredHoverPoint, setFeaturedHoverPoint] = useState<{ x: number; y: number } | null>(null);
 
   const featured = useMemo(() => projects.filter((item) => item.featured), [projects]);
   const other = useMemo(() => projects.filter((item) => !item.featured), [projects]);
@@ -61,23 +63,40 @@ export function HomeView({ site, projects, blogs }: Props) {
     document.documentElement.style.removeProperty("--accent");
   }, [accent]);
 
-  function applyHover(project: Project) {
+  function applyHover(project: Project, event: ReactMouseEvent<HTMLAnchorElement>) {
     if (project.featured) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      setFeaturedHoverPoint({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      });
       setAccent(project.accent || null);
       setSpecialFeatured(true);
       return;
     }
 
+    setFeaturedHoverPoint(null);
     setSpecialFeatured(false);
   }
 
   function clearHover() {
     setAccent(null);
+    setFeaturedHoverPoint(null);
     setSpecialFeatured(false);
   }
 
   return (
-    <div className={`min-h-screen flex flex-col featured-layer accent-fade ${specialFeatured ? "featured-distort" : ""}`}>
+    <div
+      className={`min-h-screen flex flex-col featured-layer accent-fade ${specialFeatured ? "featured-distort" : ""}`}
+      style={
+        featuredHoverPoint
+          ? {
+              ["--featured-x" as string]: `${featuredHoverPoint.x}px`,
+              ["--featured-y" as string]: `${featuredHoverPoint.y}px`,
+            }
+          : undefined
+      }
+    >
       <SiteHeader active="home" />
       <main className="flex-1 pt-48 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
         <header className="mb-24 hacker-reveal">
@@ -149,7 +168,7 @@ export function HomeView({ site, projects, blogs }: Props) {
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                onMouseEnter={() => applyHover(project)}
+                onMouseEnter={(event) => applyHover(project, event)}
                 onMouseLeave={clearHover}
                 className="group relative bg-surface-container flex flex-col border border-outline-variant/20 rounded-md transition-all duration-300 hover:border-[var(--accent)] leak-hover ui-card-hover"
               >

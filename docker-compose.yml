@@ -7,7 +7,10 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
+      ADMIN_PASSWORD: hello-i-am-legit
     restart: unless-stopped
+    networks:
+      - web
 
 networks:
   web:

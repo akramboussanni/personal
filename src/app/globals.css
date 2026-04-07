@@ -197,6 +197,12 @@ a {
 
 .featured-layer {
   position: relative;
+  isolation: isolate;
+}
+
+.featured-layer > * {
+  position: relative;
+  z-index: 1;
 }
 
 .featured-layer::before {
@@ -213,7 +219,7 @@ a {
   opacity: 0;
   pointer-events: none;
   animation: scan 2.1s linear infinite;
-  z-index: 30;
+  z-index: 0;
   transition: opacity 360ms ease;
 }
 
@@ -224,13 +230,13 @@ a {
 .featured-layer::after {
   content: "";
   position: fixed;
-  inset: -20%;
+  inset: 0;
   background:
-    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 24%, transparent) 0%, transparent 42%),
-    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 62%);
+    radial-gradient(circle at var(--featured-x, 50vw) var(--featured-y, 50vh), color-mix(in srgb, var(--accent) 24%, transparent) 0%, transparent 42%),
+    radial-gradient(circle at var(--featured-x, 50vw) var(--featured-y, 50vh), color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 62%);
   opacity: 0;
   pointer-events: none;
-  z-index: 20;
+  z-index: 0;
   transition: opacity 360ms ease;
 }
 

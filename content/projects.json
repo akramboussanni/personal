@@ -1,0 +1,57 @@
+[
+  {
+    "slug": "enemy-on-board",
+    "title": "Enemy on Board",
+    "summary": "A tactical social deduction game system built for dramatic pacing and readable pressure.",
+    "year": "2026",
+    "category": "Game Systems",
+    "accent": "#ff6b6b",
+    "featured": true,
+    "heroImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuAxIiFXznMdid7CNkhseV0mU-CA2ewP-aX_OkqAfWFQ1qMu9pojka2CuIt9o33B5zk7Ke2YTF_wpUi7Hh3uNmHMklOAtDQuJUEE-WR5vnZ90L_XCsXbnx55v0KHdcp5kxay4DDWeeipU9wSzxbpx5jHqgSfUDTyCiJtFXlR8jhvuJiC0CmdiqyRByYMgCKz565Akh_IFNPDwb-ICG-7u9TzWiGmi8K31XVwlY0VRWDYwNQveZ0dUTZ1Wd5Io9ftHGyYHNN6zDCISVQ",
+    "skills": [
+      "unity",
+      "csharp",
+      "dotnet",
+      "postgresql",
+      "docker"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "The project focuses on orchestrating uncertainty with clear visual communication and low latency interactions."
+      },
+      {
+        "type": "image",
+        "url": "https://lh3.googleusercontent.com/aida-public/AB6AXuAwU5KVYNDO4eMmKw18-kLNlMsv8RKSmTk_gTKv-uCzllUgsToCz01YJuRZ797sAtyGWTrXROPCZfQH_UEwP5hgEcSm2cLk72GH-DmXZoqfJOf7_hE-5zaRYoe5YPHmKWVmfaiTUFSjDHKRgQGZ1vrUPu7PuwXi4mVIAkCw13C4zLvro1Zy5D922domPT1J33sErrEk5Z5XApvASANVvY96kxT-lBR4ASDDvl4hIqkxaSOP8zM8sooETnD2T15hrALQ4O0sCKHva9E",
+        "caption": "Atmosphere and readability tuned for high-pressure rounds."
+      }
+    ],
+    "featuredDetails": {
+      "problem": "Deduction games lose tension when readability and pacing diverge.",
+      "approach": "Built synchronized systems for role states, events, and round telemetry with fast UI feedback.",
+      "impact": "Higher session retention and cleaner decision-making under pressure."
+    }
+  },
+  {
+    "slug": "cloudsync-utility",
+    "title": "CloudSync Utility",
+    "summary": "Distributed pipeline for creative teams shipping assets daily.",
+    "year": "2024",
+    "category": "Tooling",
+    "accent": "#118ab2",
+    "featured": false,
+    "heroImage": "",
+    "skills": [
+      "typescript",
+      "react",
+      "docker",
+      "aws"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "A prototype focused on reducing friction in remote collaboration and build iteration loops."
+      }
+    ]
+  }
+]

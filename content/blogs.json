@@ -1,0 +1,25 @@
+[
+  {
+    "slug": "new-post",
+    "title": "New Blog Post",
+    "excerpt": "Click to add excerpt",
+    "date": "Apr 2026",
+    "readTime": "4 min",
+    "tag": "Notes",
+    "accent": "#39ff88",
+    "heroImage": "",
+    "skills": [],
+    "markdown": "",
+    "content": [
+      {
+        "type": "paragraph",
+        "text": ""
+      },
+      {
+        "type": "image",
+        "url": "",
+        "caption": ""
+      }
+    ]
+  }
+]

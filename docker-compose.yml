@@ -1,0 +1,14 @@
+services:
+  web:
+    image: ghcr.io/akramboussanni/personal:main
+    volumes:
+      - ./content:/app/content
+      - ./public/uploads:/app/public/uploads
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    restart: unless-stopped
+
+networks:
+  web:
+    external: true

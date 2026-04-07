@@ -1,0 +1,31 @@
+{
+  "brand": "AKRAMB.COM",
+  "defaultAccent": "#39ff88",
+  "rotatingSecondWords": ["build", "design", "engineer"],
+  "rotatingThirdWords": ["systems", "products", "pipelines", "apps", "games", "experiences", "platforms", "interfaces", "workflows"],
+  "coreSkills": ["typescript", "python", "react", "nextjs", "docker", "postgresql", "aws", "gcp", "azure"],
+  "footerLinks": [
+    {
+      "label": "GitHub",
+      "url": "#"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "#"
+    }
+  ],
+  "coreSkillGroups": [
+    {
+      "label": "Languages",
+      "skills": ["typescript", "python"]
+    },
+    {
+      "label": "Frameworks",
+      "skills": ["react", "nextjs"]
+    },
+    {
+      "label": "Infrastructure",
+      "skills": ["docker", "postgresql", "aws", "gcp", "azure"]
+    }
+  ]
+}

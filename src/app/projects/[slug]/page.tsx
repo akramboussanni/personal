@@ -7,6 +7,9 @@ import { SingleSkillIcon } from "@/components/skill-icons";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getProjectBySlug, getProjects, getSiteConfig } from "@/lib/content";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 type Props = {
   params: Promise<{ slug: string }>;
 };

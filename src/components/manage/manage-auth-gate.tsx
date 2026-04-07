@@ -22,8 +22,15 @@ export function ManageAuthGate({ children }: Props) {
     setState("loading");
     try {
       const res = await fetch("/api/admin/session", { cache: "no-store" });
+      if (!res.ok) {
+        throw new Error(`Session check failed with status ${res.status}`);
+      }
       const data = (await res.json()) as SessionState;
       setSession(data);
+      setNotice("");
+    } catch {
+      setSession({ authenticated: false, configured: true });
+      setNotice("Could not verify session. You can still log in below.");
     } finally {
       setState("ready");
     }

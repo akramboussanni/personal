@@ -2,12 +2,11 @@ services:
   web:
     image: ghcr.io/akramboussanni/personal:main
     volumes:
-      - ./content:/app/content
       - ./public/uploads:/app/public/uploads
     environment:
       NODE_ENV: production
       PORT: 3000
-      ADMIN_PASSWORD: hello-i-am-legit
+      PORTFOLIO_ADMIN_PASSWORD: hello-i-am-legit
     restart: unless-stopped
     networks:
       - web

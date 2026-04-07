@@ -2,6 +2,9 @@ import Link from "next/link";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { getBlogs, getSiteConfig } from "@/lib/content";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function BlogPage() {
   const [posts, site] = await Promise.all([getBlogs(), getSiteConfig()]);
 

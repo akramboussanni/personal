@@ -1,4 +1,6 @@
 import { notFound } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { ContentBlocks } from "@/components/content-blocks";
 import { SingleSkillIcon } from "@/components/skill-icons";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
@@ -60,7 +62,31 @@ export default async function ProjectPage({ params }: Props) {
         <section className="grid grid-cols-1 md:grid-cols-12 gap-12">
           <div className="md:col-span-7 space-y-8">
             <h2 className="font-headline text-2xl uppercase tracking-tight text-surface-tint">Operational Overview</h2>
-            <p className="text-on-surface text-lg leading-relaxed font-light">{project.summary}</p>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              components={{
+                h1: ({ children }) => <h1 className="font-headline text-3xl uppercase tracking-tight text-on-surface mb-3">{children}</h1>,
+                h2: ({ children }) => <h2 className="font-headline text-2xl uppercase tracking-tight text-on-surface mb-2">{children}</h2>,
+                h3: ({ children }) => <h3 className="font-headline text-xl uppercase tracking-tight text-on-surface mb-2">{children}</h3>,
+                h4: ({ children }) => <h4 className="font-headline text-lg uppercase tracking-tight text-on-surface mb-1">{children}</h4>,
+                p: ({ children }) => <p className="text-on-surface text-lg leading-relaxed font-light">{children}</p>,
+                ul: ({ children }) => <ul className="list-disc pl-6 space-y-1 text-on-surface text-lg leading-relaxed font-light">{children}</ul>,
+                ol: ({ children }) => <ol className="list-decimal pl-6 space-y-1 text-on-surface text-lg leading-relaxed font-light">{children}</ol>,
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="font-semibold underline decoration-white/60 underline-offset-4 transition-colors hover:text-white"
+                  >
+                    {children}
+                  </a>
+                ),
+              }}
+            >
+              {project.summary}
+            </ReactMarkdown>
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-outline-variant/80 to-transparent" aria-hidden="true" />
             <ContentBlocks blocks={project.content} />
           </div>
 

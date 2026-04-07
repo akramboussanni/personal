@@ -1,57 +1,450 @@
 [
   {
-    "slug": "enemy-on-board",
-    "title": "Enemy on Board",
-    "summary": "A tactical social deduction game system built for dramatic pacing and readable pressure.",
+    "slug": "andromeda",
+    "title": "Andromeda",
+    "summary": "A full mod + backend revival stack for Enemy on Board: Avalonia installer (Win/Linux), a from-scratch mod with zero docs, and dockerized game servers + Core REST API deployed on cost-optimized GCP with CI/CD releases and in-mod update warnings.",
     "year": "2026",
-    "category": "Game Systems",
-    "accent": "#ff6b6b",
+    "category": "Game Modding + Backend Infrastructure",
+    "accent": "#ef476f",
     "featured": true,
-    "heroImage": "https://lh3.googleusercontent.com/aida-public/AB6AXuAxIiFXznMdid7CNkhseV0mU-CA2ewP-aX_OkqAfWFQ1qMu9pojka2CuIt9o33B5zk7Ke2YTF_wpUi7Hh3uNmHMklOAtDQuJUEE-WR5vnZ90L_XCsXbnx55v0KHdcp5kxay4DDWeeipU9wSzxbpx5jHqgSfUDTyCiJtFXlR8jhvuJiC0CmdiqyRByYMgCKz565Akh_IFNPDwb-ICG-7u9TzWiGmi8K31XVwlY0VRWDYwNQveZ0dUTZ1Wd5Io9ftHGyYHNN6zDCISVQ",
+    "heroImage": "https://pub-b05a84b7b8584a24919f3a2de9a082cc.r2.dev/image.png",
     "skills": [
-      "unity",
       "csharp",
       "dotnet",
-      "postgresql",
-      "docker"
+      "avalonia",
+      "game-modding",
+      "reverse-engineering",
+      "python",
+      "rest-api",
+      "docker",
+      "docker-compose",
+      "gcp",
+      "ci-cd",
+      "github-actions"
     ],
     "content": [
       {
         "type": "paragraph",
-        "text": "The project focuses on orchestrating uncertainty with clear visual communication and low latency interactions."
+        "text": "**Andromeda** is an end-to-end multiplayer revival stack for *Enemy on Board* — not just a mod. It combines **client patching**, a **cross-platform installer**, and a **production backend** into one coherent system.\n\n"
       },
       {
-        "type": "image",
-        "url": "https://lh3.googleusercontent.com/aida-public/AB6AXuAwU5KVYNDO4eMmKw18-kLNlMsv8RKSmTk_gTKv-uCzllUgsToCz01YJuRZ797sAtyGWTrXROPCZfQH_UEwP5hgEcSm2cLk72GH-DmXZoqfJOf7_hE-5zaRYoe5YPHmKWVmfaiTUFSjDHKRgQGZ1vrUPu7PuwXi4mVIAkCw13C4zLvro1Zy5D922domPT1J33sErrEk5Z5XApvASANVvY96kxT-lBR4ASDDvl4hIqkxaSOP8zM8sooETnD2T15hrALQ4O0sCKHva9E",
-        "caption": "Atmosphere and readability tuned for high-pressure rounds."
+        "type": "paragraph",
+        "text": "#### Why it’s hard\nBuilt with **0 official docs**: behavior was derived from the shipped game via **reverse engineering**. The goal wasn’t a toy server — it had to be **stable in production** for real players.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### What ships together\n- **Installer (Avalonia, C#)**: Windows + Linux. Installs prerequisites (incl. MelonLoader), downloads the correct mod from GitHub releases, and applies config. **Install time: ~5 seconds.**\n- **Mod (C#)**: built from scratch; runtime patching + gameplay integration.\n- **Core (REST API)**: coordination layer.\n- **Dockerized game servers**: reproducible deployments.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Deployment\nRuns on **GCP** with machines that are **suspended/started** to avoid idle costs. **GitHub CI/CD** drives production deployments. The mod is **update-aware** and warns users to prevent client/server version drift.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Impact\nHit **~40 CCU** immediately after release and **revived the game** with a stable ecosystem + near-instant onboarding.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/akramboussanni/Andromeda\n\n"
       }
     ],
     "featuredDetails": {
-      "problem": "Deduction games lose tension when readability and pacing diverge.",
-      "approach": "Built synchronized systems for role states, events, and round telemetry with fast UI feedback.",
-      "impact": "Higher session retention and cleaner decision-making under pressure."
+      "problem": "A multiplayer game becomes unplayable when its backend path disappears — especially with **no documentation**, and when mod installs are fragile/manual.",
+      "approach": "Reverse-engineer behavior, implement the mod from scratch, ship an Avalonia installer for instant setup, and run dockerized servers + Core REST API on cost-optimized GCP, with CI/CD releases and client update warnings.",
+      "impact": "**~5s installs**, strong production stability, immediate adoption (**~40 CCU**), and a foundation to iterate without breaking users."
     }
   },
   {
-    "slug": "cloudsync-utility",
-    "title": "CloudSync Utility",
-    "summary": "Distributed pipeline for creative teams shipping assets daily.",
-    "year": "2024",
-    "category": "Tooling",
+    "slug": "scribe",
+    "title": "Scribe",
+    "summary": "Distributed transcription pipeline: Discord capture + pyannote diarization + Whisper transcription + Gemini summaries, with GPU worker nodes for heavy compute and tight Discord integration.",
+    "year": "2026",
+    "category": "AI / Automation",
+    "accent": "#118ab2",
+    "featured": true,
+    "heroImage": "https://pub-b05a84b7b8584a24919f3a2de9a082cc.r2.dev/Screenshot%202026-04-07%20040021.png",
+    "skills": ["python", "docker", "discord", "pyannote", "whisper", "gemini", "distributed-systems"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**Scribe** turns Discord calls into usable artifacts: diarized transcripts + structured summaries — using a distributed architecture so heavy compute runs where it should (**GPU worker nodes**).\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Pipeline\n1. **Discord bot** joins voice channels and captures/uploads jobs.\n2. **Server** coordinates jobs and storage.\n3. **Worker nodes** pull pending work and run: **pyannote** → **Whisper** → **Gemini**.\n4. Results are posted back and tightly integrated with the Discord UX.\n\n"
+      }
+    ],
+    "featuredDetails": {
+      "problem": "Always-on transcription is operationally annoying: diarization/transcription need GPU power, but coordination needs to be cheap and reliable.",
+      "approach": "Split into Discord ingestion + coordinator server + GPU workers, and implement diarization → transcription → summary.",
+      "impact": "Always-on capture with high-quality output without paying the “GPU box running 24/7” tax."
+    }
+  },
+  {
+    "slug": "gocode",
+    "title": "gocode",
+    "summary": "A fast Go (chi) backend template with cookie-based JWT auth, Swagger docs, and a practical dev/prod story (SQLite in debug, Postgres in prod).",
+    "year": "2025",
+    "category": "Backend Template",
+    "accent": "#073b4c",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["go", "chi", "jwt", "postgresql", "sqlite", "swagger"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**gocode** is a “starter that doesn’t lie”: cookie-based JWT sessions + refresh, Swagger docs, and env-driven config aimed at real deployments.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Highlights\n- **Cookie JWT auth** (session + refresh cookies)\n- **Swagger** documentation generation\n- Debug/dev mode: **SQLite**\n- Production mode: **Postgres**\n- Mailer support + security knobs (rate limits / lockouts / token expiries)\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/akramboussanni/gocode\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "driverly",
+    "title": "Driverly",
+    "summary": "Multi-tenant driving school platform built with Django + Vite/Vue and PostgreSQL, featuring scheduling/booking + tight Google Calendar + Stripe/PayPal/Square + mailing + full management.",
+    "year": "2026",
+    "category": "SaaS Platform",
+    "accent": "#06d6a0",
+    "featured": true,
+    "heroImage": "https://pub-b05a84b7b8584a24919f3a2de9a082cc.r2.dev/Screenshot%202026-04-07%20040220.png",
+    "skills": [
+      "python",
+      "django",
+      "multitenancy",
+      "postgresql",
+      "vite",
+      "vue",
+      "gcal",
+      "stripe",
+      "paypal",
+      "square",
+      "mailing"
+    ],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**Driverly** is a multi-tenant platform for driving schools (**each tenant = a school**) built with **Django + PostgreSQL** and a **Vite/Vue** frontend.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Core capabilities\n- **Scheduling + booking** built into the platform\n- **Google Calendar integration** (tight sync)\n- Payments: **Stripe**, **PayPal**, **Square**\n- **Mailing/communications** as a first-class feature\n- Full admin/management surface area for day-to-day operations\n\n"
+      }
+    ],
+    "featuredDetails": {
+      "problem": "Schools need a single system that handles scheduling reality + payments + communications across multiple tenants, not a patchwork of tools.",
+      "approach": "Build multi-tenancy into the foundation (Django), pair with a modern frontend (Vite/Vue), and integrate deeply with calendar + payment + mailing workflows.",
+      "impact": "A scalable operational platform suitable for multiple schools with automation where it matters most."
+    }
+  },
+  {
+    "slug": "plzstalk",
+    "title": "plzstalk",
+    "summary": "A “Wayback Machine for TikTok”: tracks reposts/videos/likes/followers/following through deep TikTok API reverse engineering. Built with a gocode-style backend + Next.js frontend; supports SQLite too.",
+    "year": "2025",
+    "category": "Web App / Reverse Engineering",
+    "accent": "#ffd166",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["go", "gocode", "nextjs", "typescript", "sqlite", "reverse-engineering", "tiktok", "api"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**plzstalk** makes TikTok profiles *observable over time* — effectively a **Wayback Machine** for account activity built from reverse engineered APIs.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### What it captures\n- **Reposts**\n- **Videos**\n- **Likes**\n- **Following / followers** changes\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Stack\n- Backend: **gocode-style Go API**\n- Frontend: **Next.js**\n- Storage: includes **SQLite** support\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "swcuts",
+    "title": "swcuts.com",
+    "summary": "Booking platform for a barber shop using a gocode backend + Next.js frontend, supporting multi-barber scheduling, mailing, and a clean booking UX.",
+    "year": "2025",
+    "category": "Booking / SMB SaaS",
+    "accent": "#118ab2",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["go", "gocode", "jwt", "nextjs", "typescript", "mailing", "booking"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**swcuts.com** is a booking website built for a barber friend — optimized for the small-business reality (simple UX, fast admin flows, multi-barber support).\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Stack\n- Backend: **gocode-based Go API** (auth + mailing patterns)\n- Frontend: **Next.js**\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "sstorage",
+    "title": "SStorage",
+    "summary": "Self-hosted media storage/sharing app with image/video uploads, FFmpeg transcoding, privacy controls, and an admin panel — shipped with Docker Compose and web-based configuration.",
+    "year": "2026",
+    "category": "Self-Hosted App",
+    "accent": "#06d6a0",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["typescript", "nextjs", "docker", "ffmpeg", "prisma", "postgresql"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**SStorage** is a self-hosted alternative for media uploads + sharing, designed for direct access (great for embedding), with a real admin story.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Features\n- Drag-and-drop **uploads** (images + videos)\n- **FFmpeg transcoding** + configurable compression\n- User accounts + per-user uploads\n- Privacy controls (including **force-private** behavior)\n- Admin dashboard: stats, user management, global limits, SMTP, defaults\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/akramboussanni/sstorage\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "treenode",
+    "title": "Treenode",
+    "summary": "Full-stack link-in-bio platform: customizable pages + per-user subdomains, auth, dashboard, and a modern UI — Go backend + Next.js frontend.",
+    "year": "2025",
+    "category": "Web Platform",
+    "accent": "#118ab2",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["go", "nextjs", "typescript", "postgresql", "sqlite", "jwt", "tailwind"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**Treenode** lets users build link pages accessible via **subdomains**, with a dashboard for management and a security/performance-focused backend.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Stack\n- Backend: **Go (chi)**, cookie JWT, Swagger, rate limiting, SMTP/Resend\n- Frontend: **Next.js**, TypeScript, Tailwind, shadcn/ui\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/akramboussanni/treenode\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "marchive",
+    "title": "Marchive",
+    "summary": "Anna’s Archive–inspired library app with discovery, queued downloads, admin tooling, and real-time progress — Docker deployment and dev-friendly SQLite mode.",
+    "year": "2025",
+    "category": "Self-Hosted App",
+    "accent": "#ffd166",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["go", "vue", "docker", "postgresql", "sqlite", "jwt"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**Marchive** is a library platform built around large-scale discovery and download workflows (queueing + progress tracking + admin controls).\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Highlights\n- Automated discovery + metadata extraction\n- Queue-based download management\n- Admin panel + real-time progress\n- Docker deployment (compose)\n- Dev mode supports **SQLite**\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/akramboussanni/marchive\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "midah",
+    "title": "Midah",
+    "summary": "Cross-platform soundboard built with Tauri (Rust + TS): hotkeys, categories, auto-updater, VB-Cable installer, and YouTube audio import via yt-dlp + FFmpeg.",
+    "year": "2025",
+    "category": "Desktop App",
+    "accent": "#ef476f",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["tauri", "rust", "typescript", "ffmpeg", "yt-dlp"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**Midah** is a lightweight VB-Cable soundboard designed to feel instant: low RAM/CPU, clean organization, and hotkeys so you don’t even need to open the UI.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Features\n- Cross-platform (Windows + Linux support)\n- **Autoupdater**\n- Hotkeys + categories\n- Optional local-only playback\n- **VB-Cable installer**\n- **YouTube search/import** (auto-installs `yt-dlp` + `ffmpeg`)\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/akramboussanni/midah\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "mrie",
+    "title": "MRIE",
+    "summary": "Modular self-hosted platform built with ASP.NET + Identity + SignalR + EF Core featuring an admin config system and multiple apps (AI lab assistant, media tools, prayer times API, URL shortener…).",
+    "year": "2025",
+    "category": "Web Platform",
+    "accent": "#073b4c",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["csharp", "dotnet", "aspnet", "blazor", "signalr", "ef-core"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**MRIE** is a “platform of tools” meant to replace clunky or proprietary utilities with **developer-friendly, self-hostable** modules.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Notable modules\n- **Lab AI** assistant workflow\n- **Prayer times** scraper + public API\n- Media downloader/ripper subsystem\n- URL shortener\n- Fine-grained auth + admin configuration\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/akramboussanni/Mrie\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "mawaqitnode",
+    "title": "mawaqitnode",
+    "summary": "ESP32 PlatformIO project that fetches accurate prayer times and triggers alarms, with optional OLED + buzzer drivers and modular hardware abstraction.",
+    "year": "2025",
+    "category": "Embedded / IoT",
+    "accent": "#06d6a0",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["cpp", "esp32", "platformio", "iot"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**mawaqitnode** runs an embedded prayer-times experience on ESP32, with optional screen + sound output.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Highlights\n- Modular drivers for hardware components\n- Configurable build (disable OLED/sound)\n- Serial logging for debugging\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/akramboussanni/mawaqitnode\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "rmp-api",
+    "title": "RMP API",
+    "summary": "A small API that fetches RateMyProfessors data with searchable endpoints, optional expanded payloads, and rate limiting.",
+    "year": "2026",
+    "category": "API",
+    "accent": "#118ab2",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["python", "fastapi", "docker"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**RMP API** provides endpoints for school search and professor lookups, with optional inclusion of ratings/related professors to keep responses small by default.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/akramboussanni/rmp-api\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "honda",
+    "title": "Honda",
+    "summary": "Self-hosted Wake-on-LAN + uptime/status management app with Docker Compose deployment, paired with hondakey (ESP32 companion) for remote triggers.",
+    "year": "2026",
+    "category": "Home Ops / Tooling",
+    "accent": "#073b4c",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["python", "docker", "wake-on-lan", "esp32"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**Honda** is a web app for managing WOL and home machine status. It’s designed to run via **Docker Compose** and includes dashboard views for monitoring and control.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**hondakey** is the ESP32 companion app used to send WOL packets through the system.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repos:**\n- Honda: https://github.com/akramboussanni/honda\n- hondakey: https://github.com/akramboussanni/hondakey\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "wirdbot",
+    "title": "Wirdbot",
+    "summary": "Structured Python bot/service under the adhdhikr org with Docker support, modular cogs, database + migrations, and a maintainable project layout.",
+    "year": "2026",
+    "category": "Automation / Bot",
+    "accent": "#ef476f",
+    "featured": false,
+    "heroImage": "",
+    "skills": ["python", "docker"],
+    "content": [
+      {
+        "type": "paragraph",
+        "text": "**Wirdbot** is a Docker-friendly Python bot/service project with a modular structure (**cogs**, **migrations**, DB layer) intended for real operation rather than a single-file script.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "**Repo:** https://github.com/adhdhikr/wirdbot\n\n"
+      }
+    ]
+  },
+  {
+    "slug": "champanzee",
+    "title": "Champanzee",
+    "summary": "Real-time multiplayer survey platform (sub-200ms sync) built at uOttaHack 8 that placed 2nd out of 40+ teams, with Dockerized infra (Go + Redis + Mongo + Next.js) and Gemini-powered features.",
+    "year": "2026",
+    "category": "Real-time Web App / Hackathon",
     "accent": "#118ab2",
     "featured": false,
     "heroImage": "",
     "skills": [
-      "typescript",
+      "go",
+      "websockets",
+      "nextjs",
       "react",
+      "typescript",
+      "redis",
+      "mongodb",
       "docker",
-      "aws"
+      "docker-compose",
+      "gemini"
     ],
     "content": [
       {
         "type": "paragraph",
-        "text": "A prototype focused on reducing friction in remote collaboration and build iteration loops."
+        "text": "**Champanzee** turns surveys into **live multiplayer game sessions**: hosts create rooms, players join in real time, and answers sync across participants with **sub-200ms latency**.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "Built at **[uOttaHack 8](https://2025.uottahack.ca/)** (January 2026) where it placed **2nd out of 40+ teams**.\n\n"
+      },
+      {
+        "type": "paragraph",
+        "text": "#### Links\n- Website: https://champanzee.tech\n- Repo: https://github.com/rbous/Champanzee\n\n"
       }
-    ]
+    ],
+    "featuredDetails": {
+      "problem": "Classic surveys are passive and slow; it’s hard to run engaging sessions and get high-signal responses quickly.",
+      "approach": "Turn the survey into a room-based game with real-time sync and a full Dockerized stack, with AI assistance where it improves outcomes.",
+      "impact": "A deployable real-time platform that proved itself competitively (2nd / 40+ teams) and demonstrates strong full-stack execution."
+    }
   }
 ]

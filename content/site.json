@@ -3,29 +3,93 @@
   "defaultAccent": "#39ff88",
   "rotatingSecondWords": ["build", "design", "engineer"],
   "rotatingThirdWords": ["systems", "products", "pipelines", "apps", "games", "experiences", "platforms", "interfaces", "workflows"],
-  "coreSkills": ["typescript", "python", "react", "nextjs", "docker", "postgresql", "aws", "gcp", "azure"],
+  "coreSkills": [
+    "typescript",
+    "python",
+    "react",
+    "nextjs",
+    "docker",
+    "postgresql",
+    "aws",
+    "gcp",
+    "azure",
+    "cs",
+    "dotnet",
+    "avaloniaui",
+    "githubactions",
+    "django",
+    "vite",
+    "vuejs",
+    "stripe",
+    "discord",
+    "gemini",
+    "golang",
+    "chi",
+    "jwt",
+    "sqlite",
+    "swagger",
+    "api",
+    "ffmpeg",
+    "prisma",
+    "tailwindcss",
+    "tauri",
+    "rust",
+    "blazor",
+    "cpp",
+    "platformio",
+    "fastapi"
+  ],
   "footerLinks": [
     {
       "label": "GitHub",
-      "url": "#"
+      "url": "https://github.com/akramboussanni"
     },
     {
       "label": "LinkedIn",
-      "url": "#"
+      "url": "https://linkedin.com/in/akramboussanni"
     }
   ],
   "coreSkillGroups": [
     {
       "label": "Languages",
-      "skills": ["typescript", "python"]
+      "skills": ["typescript", "python", "golang", "cs", "rust", "cpp"]
     },
     {
-      "label": "Frameworks",
-      "skills": ["react", "nextjs"]
+      "label": "Frontend",
+      "skills": ["react", "nextjs", "vuejs", "vite", "tailwindcss"]
     },
     {
-      "label": "Infrastructure",
-      "skills": ["docker", "postgresql", "aws", "gcp", "azure"]
+      "label": "Backend",
+      "skills": [
+        "django",
+        "dotnet",
+        "blazor",
+        "fastapi",
+        "chi",
+        "api",
+        "swagger",
+        "jwt"
+      ]
+    },
+    {
+      "label": "Data",
+      "skills": ["postgresql", "sqlite", "prisma"]
+    },
+    {
+      "label": "Cloud & DevOps",
+      "skills": ["docker", "aws", "gcp", "azure", "githubactions"]
+    },
+    {
+      "label": "AI & Media",
+      "skills": ["gemini", "ffmpeg"]
+    },
+    {
+      "label": "Integrations",
+      "skills": ["stripe", "discord"]
+    },
+    {
+      "label": "Systems & Platforms",
+      "skills": ["avaloniaui", "tauri", "platformio"]
     }
   ]
 }

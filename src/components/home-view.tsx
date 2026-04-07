@@ -153,13 +153,15 @@ export function HomeView({ site, projects, blogs }: Props) {
                 onMouseLeave={clearHover}
                 className="group relative bg-surface-container flex flex-col border border-outline-variant/20 rounded-md transition-all duration-300 hover:border-[var(--accent)] leak-hover ui-card-hover"
               >
-                <TinySkillIcons skills={project.skills} max={4} className="absolute top-3 right-3 z-10" />
                 <div className="aspect-video overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img alt={project.title} className="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105" src={project.heroImage || "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80&auto=format&fit=crop"} />
                 </div>
                 <div className="p-6">
-                  <h3 className="font-headline text-2xl font-bold uppercase tracking-tighter mb-3">{project.title}</h3>
+                  <div className="mb-3 flex items-start justify-between gap-3">
+                    <h3 className="font-headline text-2xl font-bold uppercase tracking-tighter">{project.title}</h3>
+                    {project.skills.length ? <TinySkillIcons skills={project.skills} max={4} className="shrink-0" /> : null}
+                  </div>
                   <p className="text-on-surface-variant text-sm mb-4 leading-relaxed">{project.summary}</p>
                 </div>
               </Link>

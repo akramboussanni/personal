@@ -14,8 +14,14 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "AKRAMB.COM | Portfolio",
+  title: {
+    default: "Akram Boussanni",
+    template: "%s | Akram Boussanni",
+  },
   description: "Portfolio website built from the custom template aesthetic.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

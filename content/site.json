@@ -37,7 +37,17 @@
     "blazor",
     "cpp",
     "platformio",
-    "fastapi"
+    "fastapi",
+    "arduino",
+    "gmail",
+    "googleappsscript",
+    "kubernetes",
+    "linux",
+    "mongodb",
+    "redis",
+    "unity",
+    "websocket",
+    "youtube"
   ],
   "footerLinks": [
     {
@@ -68,28 +78,29 @@
         "chi",
         "api",
         "swagger",
-        "jwt"
+        "jwt",
+        "websocket"
       ]
     },
     {
       "label": "Data",
-      "skills": ["postgresql", "sqlite", "prisma"]
+      "skills": ["postgresql", "sqlite", "prisma", "mongodb", "redis"]
     },
     {
       "label": "Cloud & DevOps",
-      "skills": ["docker", "aws", "gcp", "azure", "githubactions"]
+      "skills": ["docker", "aws", "gcp", "azure", "githubactions", "kubernetes"]
     },
     {
       "label": "AI & Media",
-      "skills": ["gemini", "ffmpeg"]
+      "skills": ["gemini", "ffmpeg", "youtube"]
     },
     {
       "label": "Integrations",
-      "skills": ["stripe", "discord"]
+      "skills": ["stripe", "discord", "gmail", "googleappsscript"]
     },
     {
       "label": "Systems & Platforms",
-      "skills": ["avaloniaui", "tauri", "platformio"]
+      "skills": ["avaloniaui", "tauri", "platformio", "arduino", "linux", "unity"]
     }
   ]
 }

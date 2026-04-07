@@ -8,7 +8,10 @@
     "tag": "Notes",
     "accent": "#39ff88",
     "heroImage": "",
-    "skills": [],
+    "skills": [
+      "typescript",
+      "python"
+    ],
     "markdown": "",
     "content": [
       {

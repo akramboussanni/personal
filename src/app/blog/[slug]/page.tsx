@@ -48,7 +48,7 @@ export default async function BlogDetailPage({ params }: Props) {
       <main className="flex-1 pt-32 pb-24 px-6 md:px-12 lg:px-24">
         <div className="max-w-4xl mx-auto">
           <header className="mb-12">
-            <p className="font-label text-[10px] uppercase tracking-[0.3em] text-neutral-500 mb-4">{post.date} / {post.readTime} / {post.tag}</p>
+            <p className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-4">{post.date} / {post.readTime} / {post.tag}</p>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none font-headline mb-6">{post.title}</h1>
             <p className="text-on-surface-variant text-lg">{post.excerpt}</p>
           </header>

@@ -331,7 +331,30 @@ a {
   box-shadow: 0 10px 20px color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
+.skill-result-card {
+  opacity: 0;
+  animation: skillCardIn 420ms ease forwards;
+  transition: transform 220ms ease, border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
+  border: 1px solid color-mix(in srgb, var(--outline-variant) 46%, transparent);
+}
+
+.skill-result-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 44%, transparent), 0 10px 20px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
 @keyframes blogTextIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes skillCardIn {
   from {
     opacity: 0;
     transform: translateY(8px);

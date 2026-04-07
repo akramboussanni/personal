@@ -9,18 +9,16 @@
     "featured": true,
     "heroImage": "https://pub-b05a84b7b8584a24919f3a2de9a082cc.r2.dev/image.png",
     "skills": [
-      "csharp",
+      "cs",
       "dotnet",
-      "avalonia",
-      "game-modding",
-      "reverse-engineering",
+      "avaloniaui",
+      "unity",
+      "cpp",
       "python",
-      "rest-api",
+      "api",
       "docker",
-      "docker-compose",
       "gcp",
-      "ci-cd",
-      "github-actions"
+      "githubactions"
     ],
     "content": [
       {
@@ -63,7 +61,7 @@
     "accent": "#118ab2",
     "featured": true,
     "heroImage": "https://pub-b05a84b7b8584a24919f3a2de9a082cc.r2.dev/Screenshot%202026-04-07%20040021.png",
-    "skills": ["python", "docker", "discord", "pyannote", "whisper", "gemini", "distributed-systems"],
+    "skills": ["python", "docker", "discord", "gemini", "kubernetes"],
     "content": [
       {
         "type": "paragraph",
@@ -89,7 +87,7 @@
     "accent": "#073b4c",
     "featured": false,
     "heroImage": "",
-    "skills": ["go", "chi", "jwt", "postgresql", "sqlite", "swagger"],
+    "skills": ["golang", "chi", "jwt", "postgresql", "sqlite", "swagger"],
     "content": [
       {
         "type": "paragraph",
@@ -117,15 +115,12 @@
     "skills": [
       "python",
       "django",
-      "multitenancy",
       "postgresql",
       "vite",
-      "vue",
-      "gcal",
+      "vuejs",
+      "googleappsscript",
       "stripe",
-      "paypal",
-      "square",
-      "mailing"
+      "gmail"
     ],
     "content": [
       {
@@ -152,7 +147,7 @@
     "accent": "#ffd166",
     "featured": false,
     "heroImage": "",
-    "skills": ["go", "gocode", "nextjs", "typescript", "sqlite", "reverse-engineering", "tiktok", "api"],
+    "skills": ["golang", "nextjs", "typescript", "sqlite", "cpp", "api"],
     "content": [
       {
         "type": "paragraph",
@@ -177,7 +172,7 @@
     "accent": "#118ab2",
     "featured": false,
     "heroImage": "",
-    "skills": ["go", "gocode", "jwt", "nextjs", "typescript", "mailing", "booking"],
+    "skills": ["golang", "jwt", "nextjs", "typescript", "gmail", "api"],
     "content": [
       {
         "type": "paragraph",
@@ -223,7 +218,7 @@
     "accent": "#118ab2",
     "featured": false,
     "heroImage": "",
-    "skills": ["go", "nextjs", "typescript", "postgresql", "sqlite", "jwt", "tailwind"],
+    "skills": ["golang", "nextjs", "typescript", "postgresql", "sqlite", "jwt", "tailwindcss"],
     "content": [
       {
         "type": "paragraph",
@@ -248,7 +243,7 @@
     "accent": "#ffd166",
     "featured": false,
     "heroImage": "",
-    "skills": ["go", "vue", "docker", "postgresql", "sqlite", "jwt"],
+    "skills": ["golang", "vuejs", "docker", "postgresql", "sqlite", "jwt"],
     "content": [
       {
         "type": "paragraph",
@@ -273,7 +268,7 @@
     "accent": "#ef476f",
     "featured": false,
     "heroImage": "",
-    "skills": ["tauri", "rust", "typescript", "ffmpeg", "yt-dlp"],
+    "skills": ["tauri", "rust", "typescript", "ffmpeg", "youtube"],
     "content": [
       {
         "type": "paragraph",
@@ -298,7 +293,7 @@
     "accent": "#073b4c",
     "featured": false,
     "heroImage": "",
-    "skills": ["csharp", "dotnet", "aspnet", "blazor", "signalr", "ef-core"],
+    "skills": ["cs", "dotnet", "blazor", "websocket"],
     "content": [
       {
         "type": "paragraph",
@@ -323,7 +318,7 @@
     "accent": "#06d6a0",
     "featured": false,
     "heroImage": "",
-    "skills": ["cpp", "esp32", "platformio", "iot"],
+    "skills": ["cpp", "arduino", "platformio"],
     "content": [
       {
         "type": "paragraph",
@@ -369,7 +364,7 @@
     "accent": "#073b4c",
     "featured": false,
     "heroImage": "",
-    "skills": ["python", "docker", "wake-on-lan", "esp32"],
+    "skills": ["python", "docker", "linux", "arduino"],
     "content": [
       {
         "type": "paragraph",
@@ -416,15 +411,14 @@
     "featured": false,
     "heroImage": "",
     "skills": [
-      "go",
-      "websockets",
+      "golang",
+      "websocket",
       "nextjs",
       "react",
       "typescript",
       "redis",
       "mongodb",
       "docker",
-      "docker-compose",
       "gemini"
     ],
     "content": [

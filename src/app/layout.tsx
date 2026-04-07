@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     default: "Akram Boussanni",
     template: "%s | Akram Boussanni",
   },
-  description: "Portfolio website built from the custom template aesthetic.",
+  description: "Personal site of Akram Boussanni: projects, technical writing, and systems work.",
   icons: {
     icon: "/icon.svg",
   },
@@ -29,13 +29,27 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const themeBootstrapScript = `(() => {
+    try {
+      const saved = localStorage.getItem("portfolio-theme-mode") ?? localStorage.getItem("portfolio-theme");
+      const next = saved === "light" ? "light" : "dark";
+      const root = document.documentElement;
+      root.classList.remove("dark", "light");
+      root.classList.add(next);
+    } catch {
+      document.documentElement.classList.remove("light");
+      document.documentElement.classList.add("dark");
+    }
+  })();`;
+
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} dark h-full antialiased`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}>
       <head>
         <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         />
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrapScript }} />
       </head>
       <body className="min-h-full flex flex-col">
         <AmbientPointer />

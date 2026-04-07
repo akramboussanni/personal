@@ -13,12 +13,35 @@ type Props = {
   blogs: BlogPost[];
 };
 
+function sentenceCase(value: string) {
+  return value
+    .replace(/[-_]/g, " ")
+    .split(" ")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+function skillLabel(value: string) {
+  return value.replace(/[-_]/g, " ").toUpperCase();
+}
+
+function isPlaceholderBlog(post: BlogPost) {
+  return post.title.trim().toLowerCase() === "new blog post" && post.excerpt.trim().toLowerCase() === "click to add excerpt";
+}
+
+const GROUP_TONE_PALETTE = ["#4f8cff", "#00b894", "#ff8a3d", "#8e7dff", "#00a7cc", "#ff5f9e", "#8bc34a", "#7f8a99"];
+
+function resolveGroupTone(index: number, configuredTone?: string) {
+  return configuredTone || GROUP_TONE_PALETTE[index % GROUP_TONE_PALETTE.length];
+}
+
 export function HomeView({ site, projects, blogs }: Props) {
   const [accent, setAccent] = useState<string | null>(null);
   const [specialFeatured, setSpecialFeatured] = useState(false);
   const [secondIndex, setSecondIndex] = useState(0);
   const [thirdIndex, setThirdIndex] = useState(0);
-  const [activeSkill, setActiveSkill] = useState(site.coreSkills[0] || "");
+  const [activeSkill, setActiveSkill] = useState<string | null>(null);
   const [featuredHoverPoint, setFeaturedHoverPoint] = useState<{ x: number; y: number } | null>(null);
 
   const featured = useMemo(() => projects.filter((item) => item.featured), [projects]);
@@ -30,16 +53,43 @@ export function HomeView({ site, projects, blogs }: Props) {
 
     return [{ label: "Capabilities", skills: site.coreSkills }];
   }, [site.coreSkillGroups, site.coreSkills]);
-  const skillStats = useMemo(() => {
-    const projectCount = projects.filter((project) => project.skills.includes(activeSkill)).length;
-    const blogCount = blogs.filter((blog) => blog.skills.includes(activeSkill)).length;
 
+  const visibleBlogs = useMemo(() => blogs.filter((blog) => !isPlaceholderBlog(blog)), [blogs]);
+
+  const skillToGroup = useMemo(() => {
+    const map = new Map<string, { label: string; tone: string }>();
+
+    for (const [index, group] of groupedSkills.entries()) {
+      const tone = resolveGroupTone(index, group.tone);
+      for (const skill of group.skills) {
+        map.set(skill, { label: group.label, tone });
+      }
+    }
+
+    return map;
+  }, [groupedSkills]);
+
+  const skillLinkedProjects = useMemo(
+    () => (activeSkill ? projects.filter((project) => project.skills.includes(activeSkill)) : []),
+    [activeSkill, projects],
+  );
+
+  const skillLinkedBlogs = useMemo(
+    () => (activeSkill ? visibleBlogs.filter((blog) => blog.skills.includes(activeSkill)) : []),
+    [activeSkill, visibleBlogs],
+  );
+
+  const hasAnyBlogs = visibleBlogs.length > 0;
+  const activeGroup = activeSkill ? skillToGroup.get(activeSkill) : null;
+  const activeTone = activeGroup?.tone ?? GROUP_TONE_PALETTE[0];
+
+  const skillStats = useMemo(() => {
     return {
-      projectCount,
-      blogCount,
-      total: projectCount + blogCount,
+      projectCount: skillLinkedProjects.length,
+      blogCount: skillLinkedBlogs.length,
+      total: skillLinkedProjects.length + skillLinkedBlogs.length,
     };
-  }, [activeSkill, blogs, projects]);
+  }, [skillLinkedBlogs.length, skillLinkedProjects.length]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -119,25 +169,40 @@ export function HomeView({ site, projects, blogs }: Props) {
             <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter">Core stack</h2>
             <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
           </div>
-          <div className="bg-surface-container border border-outline-variant/30 rounded-md p-5 space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              {groupedSkills.map((group) => (
-                <div key={group.label} className="border border-outline-variant/35 rounded-sm bg-surface-container-low p-3">
-                  <p className="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant mb-3">{group.label}</p>
-                  <div className="flex flex-wrap gap-2">
+
+          <div className="space-y-6">
+            <div className="space-y-5">
+              {groupedSkills.map((group, groupIndex) => (
+                <div key={group.label} className="grid grid-cols-[108px_1fr] md:grid-cols-[128px_1fr] gap-x-4 items-start">
+                  <p className="text-[12px] text-on-surface-variant text-left leading-6 pt-1.5">{sentenceCase(group.label)}</p>
+                  <div className="flex flex-wrap gap-2 pl-2">
                     {group.skills.map((skill) => {
                       const isActive = skill === activeSkill;
+                      const tone = resolveGroupTone(groupIndex, group.tone);
+
                       return (
                         <button
                           key={`${group.label}-${skill}`}
                           type="button"
                           onClick={() => setActiveSkill(skill)}
-                          className={`inline-flex items-center gap-1.5 border rounded-sm px-2 py-1 uppercase tracking-[0.12em] text-[10px] font-label skill-chip-hover ${
-                            isActive ? "border-[var(--accent)] text-on-surface" : "border-outline-variant/40 text-on-surface-variant"
+                          className={`inline-flex items-center gap-1.5 border rounded-sm px-2.5 py-1.5 text-[12px] leading-none skill-chip-hover ${
+                            isActive ? "text-on-surface bg-surface-container-low" : "text-on-surface-variant"
                           }`}
+                          style={
+                            isActive
+                              ? {
+                                  borderColor: `color-mix(in srgb, ${tone} 62%, var(--outline-variant) 38%)`,
+                                  borderLeftWidth: "3px",
+                                  borderLeftColor: tone,
+                                  backgroundColor: `color-mix(in srgb, ${tone} 11%, var(--surface-container-low) 89%)`,
+                                }
+                              : {
+                                  borderColor: `color-mix(in srgb, ${tone} 32%, var(--outline-variant) 68%)`,
+                                }
+                          }
                         >
                           <SingleSkillIcon skill={skill} className="w-3 h-3 object-contain" />
-                          <span>{skill}</span>
+                          <span>{skillLabel(skill)}</span>
                         </button>
                       );
                     })}
@@ -146,14 +211,84 @@ export function HomeView({ site, projects, blogs }: Props) {
               ))}
             </div>
 
-            <div className="border border-outline-variant/35 rounded-sm bg-surface-container-low p-3 flex flex-col md:flex-row md:items-center justify-between gap-3">
-              <div className="flex items-center gap-2">
-                <SingleSkillIcon skill={activeSkill} className="w-4 h-4 object-contain" />
-                <p className="font-label text-[11px] uppercase tracking-[0.16em] text-on-surface">{activeSkill}</p>
-              </div>
-              <p className="text-[11px] font-label uppercase tracking-[0.14em] text-on-surface-variant">
-                {skillStats.projectCount} projects / {skillStats.blogCount} posts / {skillStats.total} total
-              </p>
+            <div className="space-y-5 pt-3">
+              {activeSkill ? (
+                <div
+                  className="inline-flex items-center gap-2 rounded-none px-2.5 py-1.5 text-[12px] border border-outline-variant/40"
+                  style={{
+                    backgroundColor: `color-mix(in srgb, ${activeTone} 14%, var(--surface-container-low) 86%)`,
+                    borderLeft: `3px solid ${activeTone}`,
+                  }}
+                >
+                  <SingleSkillIcon skill={activeSkill} className="w-3 h-3 object-contain" />
+                  <span className="text-on-surface">FILTERING BY {skillLabel(activeSkill)}</span>
+                  <button
+                    type="button"
+                    onClick={() => setActiveSkill(null)}
+                    className="text-on-surface-variant hover:text-on-surface transition-colors"
+                    aria-label="Clear technology filter"
+                  >
+                    x
+                  </button>
+                </div>
+              ) : (
+                <p className="text-[12px] text-on-surface-variant">Select a skill to view related projects and posts.</p>
+              )}
+
+              {activeSkill ? (
+                <>
+                  <div className="flex items-center justify-between">
+                    <p className="text-[13px] text-on-surface-variant">{`PROJECTS USING ${skillLabel(activeSkill)}`}</p>
+                    <span className="text-[13px] text-on-surface-variant">{skillStats.projectCount}</span>
+                  </div>
+
+                  {skillLinkedProjects.length ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 items-stretch">
+                      {skillLinkedProjects.map((project, index) => (
+                        <Link
+                          key={`skill-project-${project.slug}`}
+                          href={`/projects/${project.slug}`}
+                          style={{ animationDelay: `${index * 55}ms` }}
+                          className="h-full flex flex-col rounded-none p-3 bg-surface-container skill-result-card hover:bg-surface-container-low"
+                        >
+                          <p className="font-headline text-[14px] font-medium tracking-normal">{project.title}</p>
+                          <p className="text-[13px] text-on-surface-variant line-clamp-2 mt-1">{project.summary}</p>
+                          <p className="text-[11px] mt-auto pt-3" style={{ color: "color-mix(in srgb, var(--on-surface-variant) 86%, transparent)" }}>
+                            {project.year} / {project.category.toLowerCase()}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-[13px] text-on-surface-variant">No projects match this filter yet.</p>
+                  )}
+
+                  {skillLinkedBlogs.length ? (
+                    <>
+                      <div className="flex items-center justify-between">
+                        <p className="text-[13px] text-on-surface-variant">{`POSTS USING ${skillLabel(activeSkill)}`}</p>
+                        <span className="text-[13px] text-on-surface-variant">{skillStats.blogCount}</span>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch">
+                        {skillLinkedBlogs.map((post, index) => (
+                          <Link
+                            key={`skill-blog-${post.slug}`}
+                            href={`/blog/${post.slug}`}
+                            style={{ animationDelay: `${index * 55}ms` }}
+                            className="h-full flex flex-col rounded-none p-3 bg-surface-container skill-result-card hover:bg-surface-container-low"
+                          >
+                            <p className="font-headline text-[14px] font-medium tracking-normal">{post.title}</p>
+                            <p className="text-[13px] text-on-surface-variant line-clamp-2 mt-1">{post.excerpt}</p>
+                            <p className="text-[11px] mt-auto pt-3" style={{ color: "color-mix(in srgb, var(--on-surface-variant) 86%, transparent)" }}>
+                              {post.date} / {post.readTime}
+                            </p>
+                          </Link>
+                        ))}
+                      </div>
+                    </>
+                  ) : null}
+                </>
+              ) : null}
             </div>
           </div>
         </section>
@@ -212,27 +347,29 @@ export function HomeView({ site, projects, blogs }: Props) {
           </div>
         </section>
 
-        <section className="hacker-reveal">
-          <div className="flex justify-between items-end mb-8">
-            <h2 className="font-headline text-2xl font-bold uppercase tracking-widest section-kicker">Latest Posts</h2>
-            <Link href="/blog" className="font-label text-xs uppercase tracking-[0.3em] text-on-surface-variant hover:text-on-surface">Open Blog</Link>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {blogs.slice(0, 3).map((post, index) => (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                style={{ animationDelay: `${index * 60}ms` }}
-                className="relative bg-surface-container border border-outline-variant/30 p-6 hover:border-[var(--accent)] transition-colors blog-card ui-card-hover"
-              >
-                <TinySkillIcons skills={post.skills} max={3} className="absolute top-3 right-3" />
-                <h3 style={{ animationDelay: `${120 + index * 60}ms` }} className="font-headline uppercase text-lg mb-2 blog-title-reveal">{post.title}</h3>
-                <p style={{ animationDelay: `${190 + index * 60}ms` }} className="text-sm text-on-surface-variant mb-3 blog-excerpt-reveal">{post.excerpt}</p>
-                <p style={{ animationDelay: `${240 + index * 60}ms` }} className="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant blog-meta-reveal">{post.date} / {post.readTime}</p>
-              </Link>
-            ))}
-          </div>
-        </section>
+        {hasAnyBlogs ? (
+          <section className="hacker-reveal">
+            <div className="flex justify-between items-end mb-8">
+              <h2 className="font-headline text-2xl font-bold uppercase tracking-widest section-kicker">Latest Posts</h2>
+              <Link href="/blog" className="font-label text-xs uppercase tracking-[0.3em] text-on-surface-variant hover:text-on-surface">Open Blog</Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {visibleBlogs.slice(0, 3).map((post, index) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  style={{ animationDelay: `${index * 60}ms` }}
+                  className="relative bg-surface-container border border-outline-variant/30 p-6 hover:border-[var(--accent)] transition-colors blog-card ui-card-hover"
+                >
+                  <TinySkillIcons skills={post.skills} max={3} className="absolute top-3 right-3" />
+                  <h3 style={{ animationDelay: `${120 + index * 60}ms` }} className="font-headline uppercase text-lg mb-2 blog-title-reveal">{post.title}</h3>
+                  <p style={{ animationDelay: `${190 + index * 60}ms` }} className="text-sm text-on-surface-variant mb-3 blog-excerpt-reveal">{post.excerpt}</p>
+                  <p style={{ animationDelay: `${240 + index * 60}ms` }} className="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant blog-meta-reveal">{post.date} / {post.readTime}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
       </main>
       <SiteFooter links={site.footerLinks} />
     </div>

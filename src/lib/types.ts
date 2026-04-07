@@ -54,5 +54,6 @@ export type SiteConfig = {
   coreSkillGroups?: Array<{
     label: string;
     skills: string[];
+    tone?: string;
   }>;
 };

@@ -4,8 +4,12 @@ import { Project } from "@/lib/types";
 import { isAdminAuthorized } from "@/lib/admin";
 
 export async function GET() {
-  const projects = await getProjects();
-  return NextResponse.json(projects);
+  try {
+    const projects = await getProjects();
+    return NextResponse.json(projects);
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Failed to load projects" }, { status: 500 });
+  }
 }
 
 export async function PUT(request: Request) {
@@ -13,7 +17,11 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as Project[];
-  await saveProjects(body);
-  return NextResponse.json({ ok: true });
+  try {
+    const body = (await request.json()) as Project[];
+    await saveProjects(body);
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Failed to save projects" }, { status: 500 });
+  }
 }

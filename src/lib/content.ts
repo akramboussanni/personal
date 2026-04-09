@@ -2,6 +2,8 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { BlogPost, Project, SiteConfig } from "@/lib/types";
 
+type ContentFileName = "projects.json" | "blogs.json" | "site.json";
+
 const bundledContentDir = path.join(process.cwd(), "content-defaults");
 const contentDir = process.env.CONTENT_DIR ? path.resolve(process.env.CONTENT_DIR) : bundledContentDir;
 const projectsPath = path.join(contentDir, "projects.json");
@@ -12,26 +14,55 @@ async function ensureDirExists() {
   await fs.mkdir(contentDir, { recursive: true });
 }
 
-async function ensureContentFile(fileName: "projects.json" | "blogs.json" | "site.json") {
+async function exists(filePath: string) {
+  try {
+    await fs.access(filePath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function getSeedPath(fileName: ContentFileName) {
+  return path.join(bundledContentDir, fileName);
+}
+
+async function ensureContentFile(fileName: ContentFileName) {
   const target = path.join(contentDir, fileName);
+  const bundledFile = getSeedPath(fileName);
+
+  if (await exists(target)) {
+    return target;
+  }
+
+  const seededRaw = await (async () => {
+    if (await exists(bundledFile)) {
+      return fs.readFile(bundledFile, "utf8");
+    }
+
+    return fileName === "site.json" ? "{}" : "[]";
+  })();
 
   try {
-    await fs.access(target);
-    return target;
-  } catch {
     await ensureDirExists();
-  }
-
-  const bundledFile = path.join(bundledContentDir, fileName);
-  try {
-    const sourceRaw = await fs.readFile(bundledFile, "utf8");
-    await fs.writeFile(target, sourceRaw, "utf8");
+    await fs.writeFile(target, seededRaw, "utf8");
     return target;
   } catch {
-    const fallback = fileName === "site.json" ? "{}" : "[]";
-    await fs.writeFile(target, fallback, "utf8");
-    return target;
+    if (await exists(bundledFile)) {
+      return bundledFile;
+    }
+
+    throw new Error(
+      `Content file ${fileName} is missing and could not be created in CONTENT_DIR (${contentDir}). Check bind mount permissions.`
+    );
   }
+}
+
+function writeAccessError(fileName: ContentFileName, cause: unknown) {
+  const detail = cause instanceof Error ? cause.message : String(cause);
+  return new Error(
+    `Failed to write ${fileName} in CONTENT_DIR (${contentDir}). Ensure the bind-mounted host folder exists and is writable by the container user. Root cause: ${detail}`
+  );
 }
 
 function withProjectDefaults(project: Project): Project {
@@ -100,16 +131,28 @@ export async function getBlogBySlug(slug: string): Promise<BlogPost | undefined>
 }
 
 export async function saveProjects(projects: Project[]): Promise<void> {
-  await ensureDirExists();
-  await fs.writeFile(projectsPath, JSON.stringify(projects, null, 2), "utf8");
+  try {
+    await ensureDirExists();
+    await fs.writeFile(projectsPath, JSON.stringify(projects, null, 2), "utf8");
+  } catch (error) {
+    throw writeAccessError("projects.json", error);
+  }
 }
 
 export async function saveBlogs(posts: BlogPost[]): Promise<void> {
-  await ensureDirExists();
-  await fs.writeFile(blogsPath, JSON.stringify(posts, null, 2), "utf8");
+  try {
+    await ensureDirExists();
+    await fs.writeFile(blogsPath, JSON.stringify(posts, null, 2), "utf8");
+  } catch (error) {
+    throw writeAccessError("blogs.json", error);
+  }
 }
 
 export async function saveSiteConfig(site: SiteConfig): Promise<void> {
-  await ensureDirExists();
-  await fs.writeFile(sitePath, JSON.stringify(site, null, 2), "utf8");
+  try {
+    await ensureDirExists();
+    await fs.writeFile(sitePath, JSON.stringify(site, null, 2), "utf8");
+  } catch (error) {
+    throw writeAccessError("site.json", error);
+  }
 }

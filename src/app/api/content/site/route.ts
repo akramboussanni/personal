@@ -4,8 +4,12 @@ import { SiteConfig } from "@/lib/types";
 import { isAdminAuthorized } from "@/lib/admin";
 
 export async function GET() {
-  const site = await getSiteConfig();
-  return NextResponse.json(site);
+  try {
+    const site = await getSiteConfig();
+    return NextResponse.json(site);
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Failed to load site config" }, { status: 500 });
+  }
 }
 
 export async function PUT(request: Request) {
@@ -13,7 +17,11 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as SiteConfig;
-  await saveSiteConfig(body);
-  return NextResponse.json({ ok: true });
+  try {
+    const body = (await request.json()) as SiteConfig;
+    await saveSiteConfig(body);
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Failed to save site config" }, { status: 500 });
+  }
 }

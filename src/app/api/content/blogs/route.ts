@@ -4,8 +4,12 @@ import { BlogPost } from "@/lib/types";
 import { isAdminAuthorized } from "@/lib/admin";
 
 export async function GET() {
-  const blogs = await getBlogs();
-  return NextResponse.json(blogs);
+  try {
+    const blogs = await getBlogs();
+    return NextResponse.json(blogs);
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Failed to load blogs" }, { status: 500 });
+  }
 }
 
 export async function PUT(request: Request) {
@@ -13,7 +17,11 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const body = (await request.json()) as BlogPost[];
-  await saveBlogs(body);
-  return NextResponse.json({ ok: true });
+  try {
+    const body = (await request.json()) as BlogPost[];
+    await saveBlogs(body);
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Failed to save blogs" }, { status: 500 });
+  }
 }

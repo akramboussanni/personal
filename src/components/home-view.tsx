@@ -335,10 +335,7 @@ export function HomeView({ site, projects, blogs }: Props) {
                 href={`/projects/${project.slug}`}
                 className="p-6 border border-outline-variant/20 rounded-md hover:bg-surface-container-low transition-colors group ui-card-hover"
               >
-                <div className="flex justify-between items-start mb-4 gap-2">
-                  <span className="material-symbols-outlined text-on-surface-variant group-hover:text-[var(--accent)]">deployed_code</span>
-                  <TinySkillIcons skills={project.skills} max={3} />
-                </div>
+                {project.skills.length ? <TinySkillIcons skills={project.skills} max={3} className="mb-4" /> : null}
                 <h4 className="font-headline font-bold uppercase text-sm mb-2">{project.title}</h4>
                 <p className="text-xs text-on-surface-variant font-body mb-2">{project.summary}</p>
                 <p className="text-[10px] font-label text-on-surface-variant">{project.year}</p>

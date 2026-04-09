@@ -8,6 +8,7 @@
   --white: #f5f5f5;
   --gray: #7f7f7f;
   --on-surface: var(--white);
+  --on-surface-heading: color-mix(in srgb, var(--white) 90%, var(--black) 10%);
   --on-surface-variant: var(--gray);
   --surface-container: var(--black);
   --surface-container-low: color-mix(in srgb, var(--black) 92%, var(--white) 8%);
@@ -22,6 +23,7 @@
 html.light {
   --accent-base: #141414;
   --on-surface: var(--black);
+  --on-surface-heading: color-mix(in srgb, var(--black) 94%, var(--gray) 6%);
   --on-surface-variant: color-mix(in srgb, var(--gray) 85%, var(--black) 15%);
   --surface-container: #eceae4;
   --surface-container-low: #e5e3dd;
@@ -88,6 +90,10 @@ a {
 
 .text-on-surface {
   color: var(--on-surface);
+}
+
+.text-on-surface-heading {
+  color: var(--on-surface-heading);
 }
 
 .text-on-surface-variant {
@@ -197,12 +203,6 @@ a {
 
 .featured-layer {
   position: relative;
-  isolation: isolate;
-}
-
-.featured-layer > * {
-  position: relative;
-  z-index: 1;
 }
 
 .featured-layer::before {
@@ -219,7 +219,7 @@ a {
   opacity: 0;
   pointer-events: none;
   animation: scan 2.1s linear infinite;
-  z-index: 0;
+  z-index: 30;
   transition: opacity 360ms ease;
 }
 
@@ -230,13 +230,13 @@ a {
 .featured-layer::after {
   content: "";
   position: fixed;
-  inset: 0;
+  inset: -20%;
   background:
-    radial-gradient(circle at var(--featured-x, 50vw) var(--featured-y, 50vh), color-mix(in srgb, var(--accent) 24%, transparent) 0%, transparent 42%),
-    radial-gradient(circle at var(--featured-x, 50vw) var(--featured-y, 50vh), color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 62%);
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 24%, transparent) 0%, transparent 42%),
+    radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 62%);
   opacity: 0;
   pointer-events: none;
-  z-index: 0;
+  z-index: 20;
   transition: opacity 360ms ease;
 }
 
@@ -331,30 +331,7 @@ a {
   box-shadow: 0 10px 20px color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
-.skill-result-card {
-  opacity: 0;
-  animation: skillCardIn 420ms ease forwards;
-  transition: transform 220ms ease, border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
-  border: 1px solid color-mix(in srgb, var(--outline-variant) 46%, transparent);
-}
-
-.skill-result-card:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 44%, transparent), 0 10px 20px color-mix(in srgb, var(--accent) 10%, transparent);
-}
-
 @keyframes blogTextIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes skillCardIn {
   from {
     opacity: 0;
     transform: translateY(8px);

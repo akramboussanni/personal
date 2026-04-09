@@ -18,9 +18,13 @@ export const metadata: Metadata = {
     default: "Akram Boussanni",
     template: "%s | Akram Boussanni",
   },
-  description: "Personal site of Akram Boussanni: projects, technical writing, and systems work.",
+  description: "My personal website.",
   icons: {
-    icon: "/icon.svg",
+    icon: [
+      { url: "/favicon-v2.ico", type: "image/x-icon" },
+      { url: "/favicon-v2.ico?v=2", type: "image/x-icon" },
+    ],
+    shortcut: "/favicon-v2.ico",
   },
 };
 
@@ -43,7 +47,7 @@ export default function RootLayout({
   })();`;
 
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}>
+    <html suppressHydrationWarning lang="en" className={`${spaceGrotesk.variable} ${inter.variable} h-full antialiased`}>
       <head>
         <link
           rel="stylesheet"

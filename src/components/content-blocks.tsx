@@ -51,9 +51,9 @@ export function ContentBlocks({ blocks }: Props) {
                 h2: ({ children }) => <h2 className="font-headline text-2xl uppercase tracking-tight text-on-surface mb-2">{children}</h2>,
                 h3: ({ children }) => <h3 className="font-headline text-xl uppercase tracking-tight text-on-surface mb-2">{children}</h3>,
                 h4: ({ children }) => <h4 className="font-headline text-lg uppercase tracking-tight text-on-surface mb-1">{children}</h4>,
-                p: ({ children }) => <p className="leading-8 text-on-surface-variant">{children}</p>,
-                ul: ({ children }) => <ul className="list-disc pl-6 space-y-1 text-on-surface-variant">{children}</ul>,
-                ol: ({ children }) => <ol className="list-decimal pl-6 space-y-1 text-on-surface-variant">{children}</ol>,
+                p: ({ children }) => <p className="leading-8 text-on-surface">{children}</p>,
+                ul: ({ children }) => <ul className="list-disc pl-6 space-y-1 text-on-surface">{children}</ul>,
+                ol: ({ children }) => <ol className="list-decimal pl-6 space-y-1 text-on-surface">{children}</ol>,
                 a: ({ href, children }) => renderInlineLink(href, children),
               }}
             >

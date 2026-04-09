@@ -1,5 +1,28 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Docker Data Persistence (Editable JSONs)
+
+This project stores runtime content in JSON files and is configured to keep them on the host via a bind mount.
+
+- Runtime content path in container: `/data/content`
+- Bind mount (default): `./content-data:/data/content`
+- Optional override: set `CONTENT_BIND_DIR` in your deployment environment.
+
+Why this works:
+
+- Deploying a new image no longer resets runtime content.
+- You can edit JSON files directly on the host in `content-data/`.
+- Tracked defaults still live in `content-defaults/` and are used only to seed missing files.
+
+### First-time migration
+
+If you previously edited `content-defaults/*.json`, copy those files once:
+
+```bash
+mkdir -p content-data
+cp content-defaults/*.json content-data/
+```
+
 ## Getting Started
 
 First, run the development server:

@@ -2,35 +2,32 @@
 
 import { useEffect, useState } from "react";
 
+const THEME_STORAGE_KEY = "portfolio-theme-mode";
+
+function applyTheme(next: "dark" | "light") {
+  const root = document.documentElement;
+  root.classList.remove("dark", "light");
+  root.classList.add(next);
+}
+
 export function ThemeToggle() {
   const [mode, setMode] = useState<"dark" | "light">("dark");
 
   useEffect(() => {
-    const saved = localStorage.getItem("portfolio-theme-mode");
-    if (saved === "light") {
-      document.documentElement.classList.remove("dark");
-      document.documentElement.classList.add("light");
-      setMode("light");
-    } else {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-      setMode("dark");
-    }
+    const saved = localStorage.getItem(THEME_STORAGE_KEY) ?? localStorage.getItem("portfolio-theme");
+    const next = saved === "light" ? "light" : "dark";
+
+    applyTheme(next);
+    setMode(next);
   }, []);
 
   function toggle() {
     const next = mode === "dark" ? "light" : "dark";
     setMode(next);
 
-    if (next === "light") {
-      document.documentElement.classList.remove("dark");
-      document.documentElement.classList.add("light");
-    } else {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    }
-
-    localStorage.setItem("portfolio-theme-mode", next);
+    applyTheme(next);
+    localStorage.setItem(THEME_STORAGE_KEY, next);
+    localStorage.setItem("portfolio-theme", next);
   }
 
   return (

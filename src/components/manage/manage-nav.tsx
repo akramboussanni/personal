@@ -8,6 +8,7 @@ const links = [
   { href: "/manage/site", label: "Site" },
   { href: "/manage/projects", label: "Projects" },
   { href: "/manage/blogs", label: "Blogs" },
+  { href: "/manage/files", label: "Files" },
 ];
 
 export function ManageNav() {

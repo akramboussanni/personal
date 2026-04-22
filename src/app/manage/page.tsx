@@ -16,11 +16,16 @@ const cards = [
     title: "Blogs",
     copy: "Blog metadata, skills, content blocks, and ordering.",
   },
+  {
+    href: "/manage/files",
+    title: "Files",
+    copy: "Upload and delete hosted files, then share links like /file/cv.pdf.",
+  },
 ];
 
 export default function ManageOverviewPage() {
   return (
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <section className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
       {cards.map((card) => (
         <Link
           key={card.href}

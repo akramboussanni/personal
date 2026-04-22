@@ -16,7 +16,8 @@ export async function GET(_request: Request, context: { params: Promise<Params> 
     }
 
     const body = await readHostedFile(name);
-    return new NextResponse(body, {
+    const bytes = Uint8Array.from(body);
+    return new NextResponse(bytes, {
       status: 200,
       headers: {
         "Content-Type": contentTypeForFile(name),

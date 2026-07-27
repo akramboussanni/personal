@@ -27,9 +27,9 @@ export default async function BlogDetailPage({ params }: Props) {
       <SiteHeader active="blog" />
       <main className="flex-1 pt-32 pb-24 px-6 md:px-12 lg:px-24">
         <div className="max-w-4xl mx-auto">
-          <header className="mb-12 border-y border-outline-variant/30 py-8 md:py-10">
+          <header className="mb-12 border border-outline-variant/30 bg-surface-container-low px-5 py-6 md:px-8 md:py-8">
             <p className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface mb-4">{post.date} / {post.readTime} / {post.tag}</p>
-            <h1 className="text-5xl md:text-7xl font-medium tracking-[-0.04em] leading-none font-headline text-on-surface-heading mb-6">{post.title}</h1>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tighter leading-none font-headline text-on-surface-heading mb-6">{post.title}</h1>
             <p className="text-on-surface text-lg md:text-xl leading-relaxed max-w-3xl">{post.excerpt}</p>
           </header>
           {post.skills.length ? <TinySkillIcons skills={post.skills} max={12} className="mb-8" /> : null}

@@ -9,12 +9,12 @@ export default async function BlogPage() {
     <div className="min-h-screen flex flex-col">
       <SiteHeader active="blog" />
       <main className="flex-1 pt-32 pb-24 px-6 md:px-12 lg:px-24">
-        <div className="max-w-5xl mx-auto">
-          <header className="mb-20">
-            <p className="eyebrow mb-5">Notes / writing / build logs</p>
-            <h1 className="font-headline text-6xl md:text-8xl font-medium tracking-[-0.04em] leading-none text-on-surface-heading">Writing</h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-on-surface-variant">
-              Short notes on building products, infrastructure, and the decisions that make them hold up.
+        <div className="max-w-7xl mx-auto">
+          <header className="mb-24">
+            <p className="font-label text-[10px] uppercase tracking-[0.32em] text-on-surface mb-4">Notes / Writing / Build Logs</p>
+            <h1 className="font-headline text-5xl md:text-8xl font-bold tracking-tighter leading-none text-on-surface-heading">BLOG</h1>
+            <p className="mt-5 max-w-2xl text-base md:text-lg leading-relaxed text-on-surface">
+              Quick updates, project breakdowns, and technical writeups. Easier to scan now in both themes.
             </p>
           </header>
 
@@ -23,17 +23,17 @@ export default async function BlogPage() {
               <article
                 key={post.slug}
                 style={{ animationDelay: `${index * 70}ms` }}
-                className="group relative border-t border-outline-variant/30 py-8 md:py-10 flex flex-col md:flex-row items-baseline gap-4 md:gap-12 transition-colors duration-300 hover:border-[var(--accent)] hacker-reveal"
+                className="group relative py-10 md:py-12 flex flex-col md:flex-row items-baseline gap-4 md:gap-12 transition-all duration-300 hover:bg-surface-container-low px-4 -mx-4 rounded-lg hacker-reveal"
               >
                 <div className="w-32 flex-shrink-0">
                   <span className="font-label text-xs tracking-widest text-outline uppercase">{post.date}</span>
                 </div>
 
                 <div className="flex-grow">
-                  <h2 className="text-2xl md:text-4xl font-medium tracking-tight text-on-surface-heading group-hover:text-surface-tint transition-colors">
+                  <h2 className="text-2xl md:text-4xl font-semibold tracking-tight text-on-surface-heading group-hover:text-white transition-colors">
                     <Link href={`/blog/${post.slug}`} className="inline-block relative">
                       {post.title}
-                      <span className="absolute bottom-0 left-0 w-0 h-px bg-[var(--accent)] transition-all duration-500 group-hover:w-full"></span>
+                      <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-white transition-all duration-500 group-hover:w-full"></span>
                     </Link>
                   </h2>
 
@@ -49,7 +49,7 @@ export default async function BlogPage() {
                 </div>
 
                 <div className="hidden md:block">
-                  <span className="material-symbols-outlined text-outline group-hover:text-[var(--accent)] transition-transform duration-300 group-hover:translate-x-1">
+                  <span className="material-symbols-outlined text-outline group-hover:text-white transition-transform duration-300 group-hover:translate-x-2">
                     arrow_forward
                   </span>
                 </div>

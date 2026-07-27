@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import type { MouseEvent as ReactMouseEvent } from "react";
 import { BlogPost, Project, SiteConfig } from "@/lib/types";
 import { SiteFooter, SiteHeader } from "@/components/site-shell";
 import { SingleSkillIcon, TinySkillIcons } from "@/components/skill-icons";
@@ -37,9 +38,11 @@ function resolveGroupTone(index: number, configuredTone?: string) {
 
 export function HomeView({ site, projects, blogs }: Props) {
   const [accent, setAccent] = useState<string | null>(null);
+  const [specialFeatured, setSpecialFeatured] = useState(false);
   const [secondIndex, setSecondIndex] = useState(0);
   const [thirdIndex, setThirdIndex] = useState(0);
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
+  const [featuredHoverPoint, setFeaturedHoverPoint] = useState<{ x: number; y: number } | null>(null);
 
   const featured = useMemo(() => projects.filter((item) => item.featured), [projects]);
   const other = useMemo(() => projects.filter((item) => !item.featured), [projects]);
@@ -110,35 +113,58 @@ export function HomeView({ site, projects, blogs }: Props) {
     document.documentElement.style.removeProperty("--accent");
   }, [accent]);
 
-  function applyHover(project: Project) {
-    setAccent(project.accent || null);
+  function applyHover(project: Project, event: ReactMouseEvent<HTMLAnchorElement>) {
+    if (project.featured) {
+      const rect = event.currentTarget.getBoundingClientRect();
+      setFeaturedHoverPoint({
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      });
+      setAccent(project.accent || null);
+      setSpecialFeatured(true);
+      return;
+    }
+
+    setFeaturedHoverPoint(null);
+    setSpecialFeatured(false);
   }
 
   function clearHover() {
     setAccent(null);
+    setFeaturedHoverPoint(null);
+    setSpecialFeatured(false);
   }
 
   return (
-    <div className="min-h-screen flex flex-col accent-fade">
+    <div
+      className={`min-h-screen flex flex-col featured-layer accent-fade ${specialFeatured ? "featured-distort" : ""}`}
+      style={
+        featuredHoverPoint
+          ? {
+              ["--featured-x" as string]: `${featuredHoverPoint.x}px`,
+              ["--featured-y" as string]: `${featuredHoverPoint.y}px`,
+            }
+          : undefined
+      }
+    >
       <SiteHeader active="home" />
-      <main className="flex-1 pt-36 pb-24 px-6 md:px-10 max-w-7xl mx-auto w-full">
-        <header className="home-intro mb-28">
-          <div className="max-w-4xl">
-            <p className="eyebrow mb-6">Software engineer / builder</p>
-            <h1 className="font-headline text-6xl md:text-8xl font-medium tracking-[-0.04em] leading-[0.92] text-on-surface-heading">
-              Akram Boussanni
+      <main className="flex-1 pt-48 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
+        <header className="mb-24 hacker-reveal">
+          <div className="flex flex-col gap-4 mb-8">
+            <h1 className="font-headline text-7xl md:text-9xl font-bold uppercase tracking-tighter leading-[0.9]">
+              AKRAM
+              <br />
+              BOUSSANNI
             </h1>
-            <div className="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 font-headline text-lg md:text-xl text-on-surface-variant">
-              <span>I</span>
-              <span key={`second-${secondIndex}`} className="hero-word-swap text-on-surface">{site.rotatingSecondWords[secondIndex]}</span>
-              <span>reliable</span>
-              <span key={`third-${thirdIndex}`} className="hero-word-swap text-surface-tint">{site.rotatingThirdWords[thirdIndex]}</span>
-            </div>
           </div>
-          <p className="mt-8 max-w-xl text-base leading-7 text-on-surface-variant">A portfolio of shipped products, infrastructure, experiments, and the notes behind them.</p>
+          <div className="flex items-center gap-3 font-headline uppercase tracking-widest text-lg md:text-2xl border-l-4 pl-6 py-2 hero-rotating-line">
+            <span>I</span>
+            <span key={`second-${secondIndex}`} className="hero-word-swap">{site.rotatingSecondWords[secondIndex]}</span>
+            <span key={`third-${thirdIndex}`} className="hero-rotating-third hero-word-swap cursor-blink">{site.rotatingThirdWords[thirdIndex]}</span>
+          </div>
         </header>
 
-        <section className="mb-28">
+        <section className="mb-24 hacker-reveal">
           <div className="flex justify-between items-end mb-8">
             <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter">Core stack</h2>
             <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
@@ -267,7 +293,7 @@ export function HomeView({ site, projects, blogs }: Props) {
           </div>
         </section>
 
-        <section className="mb-28">
+        <section className="mb-24 hacker-reveal">
           <div className="flex justify-between items-end mb-8">
             <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter section-kicker">Featured Works</h2>
             <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
@@ -277,9 +303,9 @@ export function HomeView({ site, projects, blogs }: Props) {
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                onMouseEnter={() => applyHover(project)}
+                onMouseEnter={(event) => applyHover(project, event)}
                 onMouseLeave={clearHover}
-                className="group relative bg-surface-container flex flex-col border border-outline-variant/30 rounded-none transition-colors duration-300 hover:border-[var(--accent)]"
+                className="group relative bg-surface-container flex flex-col border border-outline-variant/20 rounded-md transition-all duration-300 hover:border-[var(--accent)] leak-hover ui-card-hover"
               >
                 <div className="aspect-video overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -297,7 +323,7 @@ export function HomeView({ site, projects, blogs }: Props) {
           </div>
         </section>
 
-        <section className="mb-28">
+        <section className="mb-24 hacker-reveal">
           <div className="flex justify-between items-end mb-8">
             <h2 className="font-headline text-xl font-bold uppercase tracking-widest text-on-surface-variant section-kicker">Other Works</h2>
             <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
@@ -307,7 +333,7 @@ export function HomeView({ site, projects, blogs }: Props) {
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                className="p-5 border border-outline-variant/25 rounded-none hover:border-[var(--accent)] hover:bg-surface-container-low transition-colors group"
+                className="p-6 border border-outline-variant/20 rounded-md hover:bg-surface-container-low transition-colors group ui-card-hover"
               >
                 {project.skills.length ? <TinySkillIcons skills={project.skills} max={3} className="mb-4" /> : null}
                 <h4 className="font-headline font-bold uppercase text-sm mb-2">{project.title}</h4>
@@ -319,7 +345,7 @@ export function HomeView({ site, projects, blogs }: Props) {
         </section>
 
         {hasAnyBlogs ? (
-          <section>
+          <section className="hacker-reveal">
             <div className="flex justify-between items-end mb-8">
               <h2 className="font-headline text-2xl font-bold uppercase tracking-widest section-kicker">Latest Posts</h2>
               <Link href="/blog" className="font-label text-xs uppercase tracking-[0.3em] text-on-surface-variant hover:text-on-surface">Open Blog</Link>

@@ -55,7 +55,7 @@ export default async function ProjectPage({ params }: Props) {
                 {project.featured ? "Featured Work" : "Prototype / Project"}
               </span>
             </div>
-            <h1 className="font-headline text-5xl md:text-7xl font-medium tracking-[-0.04em] leading-none">{project.title}</h1>
+            <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tighter uppercase leading-none">{project.title}</h1>
           </div>
         </section>
 
@@ -106,7 +106,7 @@ export default async function ProjectPage({ params }: Props) {
             >
               {project.summary}
             </ReactMarkdown>
-            <div className="h-px w-full bg-[var(--outline-variant)] opacity-50" aria-hidden="true" />
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-outline-variant/80 to-transparent" aria-hidden="true" />
             <ContentBlocks blocks={project.content} />
           </div>
 

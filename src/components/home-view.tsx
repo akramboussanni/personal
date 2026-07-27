@@ -352,26 +352,28 @@ export function HomeView({ site, projects, blogs }: Props) {
               <span className="skill-filter-summary-icon" aria-hidden="true">+</span>
             </summary>
             <div className="skill-filter-dock">
-              <button type="button" onClick={() => setActiveSkill(null)} className={`skill-filter-all ${activeSkill ? "" : "is-active"}`}>All work</button>
+              <div className="skill-icon-grid">
+              <button type="button" onClick={() => setActiveSkill(null)} className={`skill-filter-all ${activeSkill ? "" : "is-active"}`} aria-label="Show all projects" title="Show all projects">ALL</button>
             {groupedSkills.map((group, groupIndex) => (
               <div className="skill-filter-group" key={group.label}>
-                <span>{String(groupIndex + 1).padStart(2, "0")} / {sentenceCase(group.label)}</span>
                 <div>
                   {group.skills.map((skill) => (
                     <button
                       type="button"
                       key={`filter-${skill}`}
                       onClick={() => setActiveSkill(skill)}
+                      aria-label={`Filter by ${skillLabel(skill)}`}
+                      title={`${sentenceCase(group.label)}: ${skillLabel(skill)}`}
                       className={`skill-filter-chip ${activeSkill === skill ? "is-active" : ""}`}
                       style={{ ["--chip-tone" as string]: resolveGroupTone(groupIndex, group.tone) }}
                     >
                       <SingleSkillIcon skill={skill} className="w-3 h-3 object-contain" />
-                      {skillLabel(skill)}
                     </button>
                   ))}
                 </div>
               </div>
             ))}
+              </div>
             </div>
           </details>
         </section>
@@ -413,12 +415,9 @@ export function HomeView({ site, projects, blogs }: Props) {
                       <p className="text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">{project.category}</p>
                       <h4 className="font-headline text-2xl font-bold uppercase tracking-tighter">{project.title}</h4>
                     </div>
-                    {project.skills.length ? <TinySkillIcons skills={project.skills} max={4} className="shrink-0" /> : null}
+                    {project.skills.length ? <TinySkillIcons skills={project.skills} max={8} className="shrink-0" /> : null}
                   </div>
                   <p className="text-sm text-on-surface-variant leading-relaxed mb-4 max-w-2xl">{project.summary}</p>
-                  <div className="project-skill-trail">
-                    {project.skills.map((skill) => <span key={`${project.slug}-${skill}`}>{skillLabel(skill)}</span>)}
-                  </div>
                   <span className="project-timeline-cta">Open project <span aria-hidden="true">↗</span></span>
                 </div>
               </Link>

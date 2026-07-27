@@ -391,15 +391,30 @@ a {
 }
 
 .home-work-grid {
-  display: grid;
-  grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1.6fr);
-  gap: clamp(2rem, 5vw, 6rem);
-  align-items: start;
+  display: block;
 }
 
 .home-stack-panel {
-  position: sticky;
-  top: 96px;
+  position: static;
+}
+
+.story-lede {
+  border-top: 1px solid color-mix(in srgb, var(--outline-variant) 60%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--outline-variant) 60%, transparent);
+  padding: clamp(2rem, 5vw, 4rem) 0;
+}
+
+.home-stack-story {
+  padding: 2rem 0 2.25rem;
+  border-top: 1px solid color-mix(in srgb, var(--outline-variant) 70%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--outline-variant) 70%, transparent);
+}
+
+.core-stack-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(2rem, 7vw, 9rem);
+  row-gap: 0.25rem;
 }
 
 .core-stack-row {
@@ -501,12 +516,12 @@ a {
 }
 
 @media (max-width: 900px) {
-  .home-work-grid {
-    grid-template-columns: 1fr;
-  }
-
   .home-stack-panel {
     position: static;
+  }
+
+  .core-stack-list {
+    grid-template-columns: 1fr;
   }
 
   .project-timeline {

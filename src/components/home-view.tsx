@@ -172,15 +172,27 @@ export function HomeView({ site, projects, blogs }: Props) {
           </div>
         </header>
 
-        <div className="home-work-grid mb-24">
-        <section className="mb-0 hacker-reveal home-stack-panel">
+        <section className="story-lede mb-24 hacker-reveal">
+          <p className="font-headline text-2xl md:text-4xl leading-tight max-w-4xl text-on-surface-heading">
+            I like building the parts people usually don&apos;t see: the systems behind a product, the tools that make it usable, and the stubborn details that make it last.
+          </p>
+          <p className="mt-5 max-w-xl text-sm leading-7 text-on-surface-variant">
+            The work moves between product interfaces, backend services, infrastructure, and strange experiments. The stack changes with the problem.
+          </p>
+        </section>
+
+        <div className="story-sequence mb-24">
+        <section className="mb-0 hacker-reveal home-stack-panel home-stack-story">
           <div className="flex justify-between items-end mb-8">
-            <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter">Core stack</h2>
-            <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
+            <div>
+              <p className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-2">The toolkit</p>
+              <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter">Core stack</h2>
+            </div>
+            <span className="hidden md:block font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]">Chosen per problem</span>
           </div>
 
           <div className="space-y-6">
-            <div className="space-y-5">
+            <div className="space-y-5 core-stack-list">
               {groupedSkills.map((group, groupIndex) => (
                 <div key={group.label} className="core-stack-row grid grid-cols-[28px_92px_1fr] md:grid-cols-[36px_112px_1fr] gap-x-3 items-start">
                   <span className="core-stack-index">{String(groupIndex + 1).padStart(2, "0")}</span>
@@ -242,7 +254,7 @@ export function HomeView({ site, projects, blogs }: Props) {
                   </button>
                 </div>
               ) : (
-                <p className="text-[12px] text-on-surface-variant">Select a skill to view related projects and posts.</p>
+                <p className="text-[12px] text-on-surface-variant">The tools are a map of the work below. Select one to follow it through the projects and notes.</p>
               )}
 
               {activeSkill ? (
@@ -303,10 +315,13 @@ export function HomeView({ site, projects, blogs }: Props) {
           </div>
         </section>
 
-        <section className="mb-0 hacker-reveal home-featured-panel">
+        <section className="mt-28 mb-0 hacker-reveal home-featured-panel">
           <div className="flex justify-between items-end mb-8">
-            <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter section-kicker">Featured Works</h2>
-            <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
+            <div>
+              <p className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-2">Chapter one</p>
+              <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter section-kicker">Featured Works</h2>
+            </div>
+            <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]">The larger systems</span>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 featured-project-grid">
             {featured.map((project) => (

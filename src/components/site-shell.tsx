@@ -17,11 +17,11 @@ function navClass(active: boolean) {
 export function SiteHeader({ active }: { active: Section }) {
   return (
     <nav className="fixed top-0 w-full z-50 header-shell">
-      <div className="flex justify-between items-center px-8 py-6 w-full max-w-7xl mx-auto">
-        <Link href="/" className="text-lg font-bold tracking-widest text-on-surface font-headline uppercase">
-          AKRAMB.COM
+      <div className="flex justify-between items-center px-6 md:px-10 py-5 w-full max-w-7xl mx-auto">
+        <Link href="/" className="text-sm font-medium tracking-tight text-on-surface font-headline">
+          akramb.com
         </Link>
-        <div className="flex gap-8 items-center">
+        <div className="flex gap-6 items-center">
           <Link href="/" className={navClass(active === "home")}>
             HOME
           </Link>

@@ -391,24 +391,26 @@ export function HomeView({ site, projects, blogs }: Props) {
                 style={{ animationDelay: `${projectIndex * 90}ms` }}
                 onMouseEnter={(event) => applyHover(project, event)}
                 onMouseLeave={clearHover}
-                className="project-timeline-item group relative bg-surface-container border border-outline-variant/20 rounded-md transition-all duration-300 hover:border-[var(--accent)] leak-hover ui-card-hover"
+                className={`project-timeline-item ${project.heroImage ? "has-image" : "no-image"} group relative bg-surface-container border border-outline-variant/20 rounded-md transition-all duration-300 hover:border-[var(--accent)] leak-hover ui-card-hover`}
               >
                 <div className="project-timeline-rail" aria-hidden="true">
                   <span>{timelineDate(project)}</span>
                   <i />
                 </div>
-                <div className="project-timeline-image aspect-video overflow-hidden bg-surface-container-low">
-                  {project.heroImage ? (
-                    // eslint-disable-next-line @next/next/no-img-element
+                {project.heroImage ? (
+                  <div className="project-timeline-image aspect-video overflow-hidden bg-surface-container-low">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img alt={project.title} className="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105" src={project.heroImage} />
-                  ) : (
-                    <div className="project-placeholder" aria-hidden="true">
-                      <span className="project-placeholder-grid" />
-                      <span className="project-placeholder-label">{project.category}</span>
-                      <span className="project-placeholder-mark">{String(projectIndex + 1).padStart(2, "0")}</span>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                ) : (
+                  <div className="project-skill-field" aria-label={`${project.title} skills`}>
+                    {project.skills.map((skill) => (
+                      <span key={`${project.slug}-visual-${skill}`} title={skillLabel(skill)}>
+                        <SingleSkillIcon skill={skill} className="w-7 h-7 object-contain" />
+                      </span>
+                    ))}
+                  </div>
+                )}
                 <div className="p-6">
                   <div className="mb-3 flex items-start justify-between gap-3">
                     <div>

@@ -586,6 +586,53 @@ a {
   min-height: 100%;
 }
 
+.project-placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 230px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 1.25rem;
+  color: var(--on-surface-variant);
+  background:
+    linear-gradient(135deg, transparent 49.5%, color-mix(in srgb, var(--accent) 38%, transparent) 50%, transparent 50.5%),
+    linear-gradient(45deg, transparent 49.5%, color-mix(in srgb, var(--outline-variant) 55%, transparent) 50%, transparent 50.5%),
+    var(--surface-container-low);
+  background-size: 100% 100%, 100% 100%, auto;
+}
+
+.project-placeholder-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.3;
+  background-image: linear-gradient(color-mix(in srgb, var(--outline-variant) 40%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--outline-variant) 40%, transparent) 1px, transparent 1px);
+  background-size: 28px 28px;
+  transition: transform 500ms ease, opacity 500ms ease;
+}
+
+.project-timeline-item:hover .project-placeholder-grid {
+  opacity: 0.55;
+  transform: scale(1.08) rotate(-2deg);
+}
+
+.project-placeholder-label,
+.project-placeholder-mark {
+  position: relative;
+  z-index: 1;
+  font: 500 0.62rem/1 var(--font-headline), sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.project-placeholder-mark {
+  color: var(--accent);
+  font-size: 2rem;
+  letter-spacing: -0.04em;
+}
+
 .project-timeline-cta {
   color: var(--accent);
   font: 500 0.68rem/1 var(--font-headline), sans-serif;

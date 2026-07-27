@@ -177,7 +177,7 @@ export function HomeView({ site, projects, blogs }: Props) {
         </header>
 
         <div className="story-sequence mb-24">
-        <section className="mb-0 hacker-reveal home-stack-panel home-stack-story">
+        <section className="hidden mb-0 hacker-reveal home-stack-panel home-stack-story" aria-hidden="true">
           <div className="flex justify-between items-end mb-8">
             <div>
               <p className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-2">The toolkit</p>
@@ -402,7 +402,11 @@ export function HomeView({ site, projects, blogs }: Props) {
                     // eslint-disable-next-line @next/next/no-img-element
                     <img alt={project.title} className="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105" src={project.heroImage} />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-4xl font-headline text-on-surface-variant/30">{project.title.slice(0, 1)}</div>
+                    <div className="project-placeholder" aria-hidden="true">
+                      <span className="project-placeholder-grid" />
+                      <span className="project-placeholder-label">{project.category}</span>
+                      <span className="project-placeholder-mark">{String(projectIndex + 1).padStart(2, "0")}</span>
+                    </div>
                   )}
                 </div>
                 <div className="p-6">

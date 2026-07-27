@@ -300,16 +300,21 @@ export function HomeView({ site, projects, blogs }: Props) {
             <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter section-kicker">Featured Works</h2>
             <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 featured-project-grid">
+          <div className="project-timeline">
             {featured.map((project, projectIndex) => (
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
+                style={{ animationDelay: `${projectIndex * 100}ms` }}
                 onMouseEnter={(event) => applyHover(project, event)}
                 onMouseLeave={clearHover}
-                className={`group relative bg-surface-container flex flex-col border border-outline-variant/20 rounded-md transition-all duration-300 hover:border-[var(--accent)] leak-hover ui-card-hover ${projectIndex === 0 ? "md:col-span-2" : ""}`}
+                className="project-timeline-item group relative bg-surface-container border border-outline-variant/20 rounded-md transition-all duration-300 hover:border-[var(--accent)] leak-hover ui-card-hover"
               >
-                <div className="aspect-video overflow-hidden">
+                <div className="project-timeline-rail" aria-hidden="true">
+                  <span>{project.year}</span>
+                  <i />
+                </div>
+                <div className="project-timeline-image aspect-video overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img alt={project.title} className="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105" src={project.heroImage || "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80&auto=format&fit=crop"} />
                 </div>
@@ -318,7 +323,8 @@ export function HomeView({ site, projects, blogs }: Props) {
                     <h3 className="font-headline text-2xl font-bold uppercase tracking-tighter">{project.title}</h3>
                     {project.skills.length ? <TinySkillIcons skills={project.skills} max={4} className="shrink-0" /> : null}
                   </div>
-                  <p className="text-on-surface-variant text-sm mb-4 leading-relaxed">{project.summary}</p>
+                  <p className="text-on-surface-variant text-sm mb-4 leading-relaxed max-w-2xl">{project.summary}</p>
+                  <span className="project-timeline-cta">Open project <span aria-hidden="true">↗</span></span>
                 </div>
               </Link>
             ))}

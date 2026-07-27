@@ -54,6 +54,10 @@ export function HomeView({ site, projects, blogs }: Props) {
     () => projects.filter((item) => !item.featured).sort((a, b) => (a.startedAt || a.year).localeCompare(b.startedAt || b.year)),
     [projects],
   );
+  const filteredOther = useMemo(
+    () => other.filter((project) => !activeSkill || project.skills.includes(activeSkill)),
+    [activeSkill, other],
+  );
   const groupedSkills = useMemo(() => {
     if (site.coreSkillGroups?.length) {
       return site.coreSkillGroups;
@@ -171,15 +175,6 @@ export function HomeView({ site, projects, blogs }: Props) {
             <span key={`third-${thirdIndex}`} className="hero-rotating-third hero-word-swap cursor-blink">{site.rotatingThirdWords[thirdIndex]}</span>
           </div>
         </header>
-
-        <section className="story-lede mb-24 hacker-reveal">
-          <p className="font-headline text-2xl md:text-4xl leading-tight max-w-4xl text-on-surface-heading">
-            I like building the parts people usually don&apos;t see: the systems behind a product, the tools that make it usable, and the stubborn details that make it last.
-          </p>
-          <p className="mt-5 max-w-xl text-sm leading-7 text-on-surface-variant">
-            The work moves between product interfaces, backend services, infrastructure, and strange experiments. The stack changes with the problem.
-          </p>
-        </section>
 
         <div className="story-sequence mb-24">
         <section className="mb-0 hacker-reveal home-stack-panel home-stack-story">
@@ -349,13 +344,47 @@ export function HomeView({ site, projects, blogs }: Props) {
         </section>
         </div>
 
+        <section className="skill-journey mb-24 hacker-reveal">
+          <div className="flex items-end justify-between gap-6 mb-5">
+            <div>
+              <p className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-2">Filter the trail</p>
+              <h2 className="font-headline text-2xl font-bold uppercase tracking-tighter">Skills in motion</h2>
+            </div>
+            {activeSkill ? (
+              <button type="button" onClick={() => setActiveSkill(null)} className="skill-filter-clear">Clear {skillLabel(activeSkill)} ×</button>
+            ) : null}
+          </div>
+          <div className="skill-filter-dock">
+            <button type="button" onClick={() => setActiveSkill(null)} className={`skill-filter-all ${activeSkill ? "" : "is-active"}`}>All work</button>
+            {groupedSkills.map((group, groupIndex) => (
+              <div className="skill-filter-group" key={group.label}>
+                <span>{String(groupIndex + 1).padStart(2, "0")} / {sentenceCase(group.label)}</span>
+                <div>
+                  {group.skills.map((skill) => (
+                    <button
+                      type="button"
+                      key={`filter-${skill}`}
+                      onClick={() => setActiveSkill(skill)}
+                      className={`skill-filter-chip ${activeSkill === skill ? "is-active" : ""}`}
+                      style={{ ["--chip-tone" as string]: resolveGroupTone(groupIndex, group.tone) }}
+                    >
+                      <SingleSkillIcon skill={skill} className="w-3 h-3 object-contain" />
+                      {skillLabel(skill)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="mb-24 hacker-reveal">
           <div className="flex justify-between items-end mb-8">
             <h2 className="font-headline text-xl font-bold uppercase tracking-widest text-on-surface-variant section-kicker">Other Works</h2>
             <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
           </div>
           <div className="project-timeline">
-            {other.map((project, projectIndex) => (
+            {filteredOther.map((project, projectIndex) => (
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
@@ -385,10 +414,14 @@ export function HomeView({ site, projects, blogs }: Props) {
                     {project.skills.length ? <TinySkillIcons skills={project.skills} max={4} className="shrink-0" /> : null}
                   </div>
                   <p className="text-sm text-on-surface-variant leading-relaxed mb-4 max-w-2xl">{project.summary}</p>
+                  <div className="project-skill-trail">
+                    {project.skills.map((skill) => <span key={`${project.slug}-${skill}`}>{skillLabel(skill)}</span>)}
+                  </div>
                   <span className="project-timeline-cta">Open project <span aria-hidden="true">↗</span></span>
                 </div>
               </Link>
             ))}
+            {!filteredOther.length ? <p className="text-sm text-on-surface-variant py-8">No projects use {skillLabel(activeSkill || "this skill")} yet.</p> : null}
           </div>
         </section>
 

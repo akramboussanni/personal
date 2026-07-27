@@ -148,7 +148,7 @@ export function HomeView({ site, projects, blogs }: Props) {
       }
     >
       <SiteHeader active="home" />
-      <main className="flex-1 pt-48 pb-24 px-6 md:px-12 max-w-7xl mx-auto w-full">
+      <main className="flex-1 pt-48 pb-24 px-6 md:px-12 max-w-[1600px] mx-auto w-full">
         <header className="mb-24 hacker-reveal">
           <div className="flex flex-col gap-4 mb-8">
             <h1 className="font-headline text-7xl md:text-9xl font-bold uppercase tracking-tighter leading-[0.9]">
@@ -164,7 +164,8 @@ export function HomeView({ site, projects, blogs }: Props) {
           </div>
         </header>
 
-        <section className="mb-24 hacker-reveal">
+        <div className="home-work-grid mb-24">
+        <section className="mb-0 hacker-reveal home-stack-panel">
           <div className="flex justify-between items-end mb-8">
             <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter">Core stack</h2>
             <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
@@ -173,9 +174,10 @@ export function HomeView({ site, projects, blogs }: Props) {
           <div className="space-y-6">
             <div className="space-y-5">
               {groupedSkills.map((group, groupIndex) => (
-                <div key={group.label} className="grid grid-cols-[108px_1fr] md:grid-cols-[128px_1fr] gap-x-4 items-start">
+                <div key={group.label} className="core-stack-row grid grid-cols-[28px_92px_1fr] md:grid-cols-[36px_112px_1fr] gap-x-3 items-start">
+                  <span className="core-stack-index">{String(groupIndex + 1).padStart(2, "0")}</span>
                   <p className="text-[12px] text-on-surface-variant text-left leading-6 pt-1.5">{sentenceCase(group.label)}</p>
-                  <div className="flex flex-wrap gap-2 pl-2">
+                  <div className="flex flex-wrap gap-2 pl-1">
                     {group.skills.map((skill) => {
                       const isActive = skill === activeSkill;
                       const tone = resolveGroupTone(groupIndex, group.tone);
@@ -293,19 +295,19 @@ export function HomeView({ site, projects, blogs }: Props) {
           </div>
         </section>
 
-        <section className="mb-24 hacker-reveal">
+        <section className="mb-0 hacker-reveal home-featured-panel">
           <div className="flex justify-between items-end mb-8">
             <h2 className="font-headline text-3xl font-bold uppercase tracking-tighter section-kicker">Featured Works</h2>
             <span className="font-label text-xs text-on-surface-variant uppercase tracking-[0.3em]"></span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {featured.map((project) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 featured-project-grid">
+            {featured.map((project, projectIndex) => (
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
                 onMouseEnter={(event) => applyHover(project, event)}
                 onMouseLeave={clearHover}
-                className="group relative bg-surface-container flex flex-col border border-outline-variant/20 rounded-md transition-all duration-300 hover:border-[var(--accent)] leak-hover ui-card-hover"
+                className={`group relative bg-surface-container flex flex-col border border-outline-variant/20 rounded-md transition-all duration-300 hover:border-[var(--accent)] leak-hover ui-card-hover ${projectIndex === 0 ? "md:col-span-2" : ""}`}
               >
                 <div className="aspect-video overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -322,6 +324,7 @@ export function HomeView({ site, projects, blogs }: Props) {
             ))}
           </div>
         </section>
+        </div>
 
         <section className="mb-24 hacker-reveal">
           <div className="flex justify-between items-end mb-8">

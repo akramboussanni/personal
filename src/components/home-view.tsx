@@ -417,7 +417,6 @@ export function HomeView({ site, projects, blogs }: Props) {
                       <p className="text-[10px] font-label uppercase tracking-[0.2em] text-on-surface-variant mb-2">{project.category}</p>
                       <h4 className="font-headline text-2xl font-bold uppercase tracking-tighter">{project.title}</h4>
                     </div>
-                    {project.skills.length ? <TinySkillIcons skills={project.skills} max={8} className="shrink-0" /> : null}
                   </div>
                   <p className="text-sm text-on-surface-variant leading-relaxed mb-4 max-w-2xl">{project.summary}</p>
                   <span className="project-timeline-cta">Open project <span aria-hidden="true">↗</span></span>

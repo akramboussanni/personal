@@ -100,7 +100,7 @@ export default function ManageFilesPage() {
     <section className="space-y-6">
       <div className="bg-surface-container border border-outline-variant/30 p-5">
         <h2 className="font-headline uppercase tracking-widest mb-2">File Hosting</h2>
-        <p className="text-sm text-on-surface-variant mb-4">Upload files (pdf, gif, videos, etc) and share via <code>/file/name.ext</code>. Default max is 1GB.</p>
+        <p className="text-sm text-on-surface-variant mb-4">Upload files (pdf, gif, videos, etc) and share via <code>/file/name.ext</code>. Default max is 4MB.</p>
         <form onSubmit={onUpload} className="space-y-3">
           <input
             type="file"

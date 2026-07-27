@@ -3,6 +3,8 @@ import { getBlogs, saveBlogs } from "@/lib/content";
 import { BlogPost } from "@/lib/types";
 import { isAdminAuthorized } from "@/lib/admin";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const blogs = await getBlogs();

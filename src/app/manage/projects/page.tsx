@@ -550,7 +550,7 @@ export default function ManageProjectsPage() {
                         />
                       </div>
                     ) : (
-                      <p className="text-sm text-on-surface-variant">Enable "Featured project" in Specs to edit this section.</p>
+                      <p className="text-sm text-on-surface-variant">Enable &quot;Featured project&quot; in Specs to edit this section.</p>
                     )}
                   </>
                 ) : null}

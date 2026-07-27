@@ -1,13 +1,7 @@
-import { promises as fs } from "node:fs";
-import path from "node:path";
+import crypto from "node:crypto";
 import { NextResponse } from "next/server";
 import { isAdminAuthorized } from "@/lib/admin";
-
-function extensionFromName(name: string): string {
-  const ext = path.extname(name || "").toLowerCase();
-  if (!ext) return ".bin";
-  return ext.replace(/[^.a-z0-9]/g, "") || ".bin";
-}
+import { fileNameFromUpload, writeHostedFile } from "@/lib/file-hosting";
 
 export async function POST(request: Request) {
   if (!isAdminAuthorized(request)) {
@@ -25,23 +19,17 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Only image files are allowed" }, { status: 400 });
   }
 
-  const maxBytes = 8 * 1024 * 1024;
+  const maxBytes = 4 * 1024 * 1024;
   if (file.size > maxBytes) {
-    return NextResponse.json({ error: "Image too large (max 8MB)" }, { status: 400 });
+    return NextResponse.json({ error: "Image too large (max 4MB)" }, { status: 400 });
   }
 
-  const bytes = Buffer.from(await file.arrayBuffer());
-  const uploadsDir = path.join(process.cwd(), "public", "uploads");
-  await fs.mkdir(uploadsDir, { recursive: true });
-
-  const ext = extensionFromName(file.name);
-  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 10)}${ext}`;
-  const fullPath = path.join(uploadsDir, fileName);
-
-  await fs.writeFile(fullPath, bytes);
+  const extension = file.name.includes(".") ? file.name.slice(file.name.lastIndexOf(".")) : ".bin";
+  const fileName = fileNameFromUpload(`${Date.now()}-${crypto.randomUUID()}${extension}`, "");
+  await writeHostedFile(fileName, new Uint8Array(await file.arrayBuffer()));
 
   return NextResponse.json({
     ok: true,
-    url: `/uploads/${fileName}`,
+    url: `/file/${encodeURIComponent(fileName)}`,
   });
 }

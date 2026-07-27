@@ -3,6 +3,8 @@ import { getSiteConfig, saveSiteConfig } from "@/lib/content";
 import { SiteConfig } from "@/lib/types";
 import { isAdminAuthorized } from "@/lib/admin";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const site = await getSiteConfig();

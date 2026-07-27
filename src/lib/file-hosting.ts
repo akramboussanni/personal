@@ -1,5 +1,6 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
+import { BLOB_STORAGE_ENABLED, blobFileExists, deleteBlobFile, listBlobFiles, readBlobFile, writeBlobFile } from "@/lib/blob-storage";
 
 const baseContentDir = process.env.CONTENT_DIR ? path.resolve(process.env.CONTENT_DIR) : path.join(process.cwd(), "content-data");
 const filesDir = path.join(baseContentDir, "files");
@@ -49,6 +50,7 @@ export function getHostedFilePath(fileName: string): string {
 }
 
 export async function hostedFileExists(fileName: string): Promise<boolean> {
+  if (BLOB_STORAGE_ENABLED) return blobFileExists(normalizeHostedFileName(fileName));
   try {
     await fs.access(getHostedFilePath(fileName));
     return true;
@@ -58,6 +60,7 @@ export async function hostedFileExists(fileName: string): Promise<boolean> {
 }
 
 export async function listHostedFiles(): Promise<HostedFile[]> {
+  if (BLOB_STORAGE_ENABLED) return listBlobFiles();
   await ensureHostedFilesDir();
   const entries = await fs.readdir(filesDir, { withFileTypes: true });
   const files = await Promise.all(
@@ -77,15 +80,28 @@ export async function listHostedFiles(): Promise<HostedFile[]> {
 }
 
 export async function readHostedFile(fileName: string): Promise<Buffer> {
+  if (BLOB_STORAGE_ENABLED) {
+    const result = await readBlobFile(normalizeHostedFileName(fileName));
+    if (!result || result.statusCode !== 200) throw new Error("File not found");
+    return Buffer.from(await new Response(result.stream).arrayBuffer());
+  }
   return fs.readFile(getHostedFilePath(fileName));
 }
 
 export async function writeHostedFile(fileName: string, bytes: Uint8Array): Promise<void> {
+  if (BLOB_STORAGE_ENABLED) {
+    await writeBlobFile(normalizeHostedFileName(fileName), bytes, contentTypeForFile(fileName));
+    return;
+  }
   await ensureHostedFilesDir();
   await fs.writeFile(getHostedFilePath(fileName), bytes);
 }
 
 export async function deleteHostedFile(fileName: string): Promise<void> {
+  if (BLOB_STORAGE_ENABLED) {
+    await deleteBlobFile(normalizeHostedFileName(fileName));
+    return;
+  }
   await fs.unlink(getHostedFilePath(fileName));
 }
 

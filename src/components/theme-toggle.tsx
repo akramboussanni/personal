@@ -11,15 +11,15 @@ function applyTheme(next: "dark" | "light") {
 }
 
 export function ThemeToggle() {
-  const [mode, setMode] = useState<"dark" | "light">("dark");
+  const [mode, setMode] = useState<"dark" | "light">(() => {
+    if (typeof window === "undefined") return "dark";
+    const saved = localStorage.getItem(THEME_STORAGE_KEY) ?? localStorage.getItem("portfolio-theme");
+    return saved === "light" ? "light" : "dark";
+  });
 
   useEffect(() => {
-    const saved = localStorage.getItem(THEME_STORAGE_KEY) ?? localStorage.getItem("portfolio-theme");
-    const next = saved === "light" ? "light" : "dark";
-
-    applyTheme(next);
-    setMode(next);
-  }, []);
+    applyTheme(mode);
+  }, [mode]);
 
   function toggle() {
     const next = mode === "dark" ? "light" : "dark";

@@ -8,7 +8,7 @@ import {
   writeHostedFile,
 } from "@/lib/file-hosting";
 
-const MAX_FILE_BYTES = Number(process.env.FILE_HOSTING_MAX_MB || "1024") * 1024 * 1024;
+const MAX_FILE_BYTES = Number(process.env.FILE_HOSTING_MAX_MB || "4") * 1024 * 1024;
 
 export async function GET(request: Request) {
   if (!isAdminAuthorized(request)) {

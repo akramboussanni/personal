@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   const password = body.password || "";
 
   if (!isAdminConfigured()) {
-    return NextResponse.json({ ok: true, message: "Admin auth not configured." });
+    return NextResponse.json({ error: "Admin authentication is not configured" }, { status: 503 });
   }
 
   if (!validateAdminCredentials(username, password)) {

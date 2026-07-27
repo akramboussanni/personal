@@ -3,6 +3,8 @@ import { getProjects, saveProjects } from "@/lib/content";
 import { Project } from "@/lib/types";
 import { isAdminAuthorized } from "@/lib/admin";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const projects = await getProjects();

@@ -9,15 +9,17 @@ function getAdminUsername(): string {
 }
 
 function getAdminPassword(): string | undefined {
-  return process.env.PORTFOLIO_ADMIN_PASSWORD || process.env.PORTFOLIO_ADMIN_TOKEN;
+  return process.env.PORTFOLIO_ADMIN_PASSWORD;
 }
 
-function getSessionSecret(): string {
-  return process.env.PORTFOLIO_ADMIN_SESSION_SECRET || process.env.PORTFOLIO_ADMIN_TOKEN || "portfolio-dev-secret";
+function getSessionSecret(): string | undefined {
+  return process.env.PORTFOLIO_ADMIN_SESSION_SECRET;
 }
 
 function signPayload(payload: string): string {
-  return crypto.createHmac("sha256", getSessionSecret()).update(payload).digest("hex");
+  const secret = getSessionSecret();
+  if (!secret) throw new Error("PORTFOLIO_ADMIN_SESSION_SECRET is not configured");
+  return crypto.createHmac("sha256", secret).update(payload).digest("hex");
 }
 
 function parseCookies(request: Request): Record<string, string> {
@@ -37,13 +39,16 @@ function parseCookies(request: Request): Record<string, string> {
 }
 
 export function isAdminConfigured(): boolean {
-  return Boolean(getAdminPassword());
+  return Boolean(getAdminPassword() && getSessionSecret());
 }
 
 export function validateAdminCredentials(username: string, password: string): boolean {
   const requiredPassword = getAdminPassword();
-  if (!requiredPassword) return true;
-  return username === getAdminUsername() && password === requiredPassword;
+  if (!requiredPassword || !getSessionSecret()) return false;
+  const usernameMatches = username === getAdminUsername();
+  const passwordMatches = password.length === requiredPassword.length &&
+    crypto.timingSafeEqual(Buffer.from(password), Buffer.from(requiredPassword));
+  return usernameMatches && passwordMatches;
 }
 
 export function createAdminSession(username: string): string {
@@ -76,15 +81,7 @@ export function isValidAdminSession(sessionToken: string): boolean {
 }
 
 export function isAdminAuthorized(request: Request): boolean {
-  if (!isAdminConfigured()) {
-    return true;
-  }
-
-  const providedToken = request.headers.get("x-admin-token") || "";
-  const fallbackToken = process.env.PORTFOLIO_ADMIN_TOKEN || "";
-  if (providedToken && fallbackToken && providedToken === fallbackToken) {
-    return true;
-  }
+  if (!isAdminConfigured()) return false;
 
   const cookies = parseCookies(request);
   const sessionToken = cookies[ADMIN_SESSION_COOKIE] || "";

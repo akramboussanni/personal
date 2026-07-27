@@ -67,7 +67,14 @@ export function ManageAuthGate({ children }: Props) {
   }
 
   if (!session.configured) {
-    return <>{children}</>;
+    return (
+      <section className="max-w-xl bg-surface-container border border-outline-variant/30 p-5 space-y-2">
+        <h2 className="font-headline uppercase tracking-widest">Admin is not configured</h2>
+        <p className="text-sm text-on-surface-variant">
+          Set PORTFOLIO_ADMIN_PASSWORD and PORTFOLIO_ADMIN_SESSION_SECRET in the deployment environment, then reload this page.
+        </p>
+      </section>
+    );
   }
 
   if (!session.authenticated) {

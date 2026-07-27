@@ -1,15 +1,12 @@
 import { promises as fs } from "node:fs";
 import path from "node:path";
 import { BlogPost, Project, SiteConfig } from "@/lib/types";
+import { BLOB_STORAGE_ENABLED, readBlobText, writeBlobText } from "@/lib/blob-storage";
 
 type ContentFileName = "projects.json" | "blogs.json" | "site.json";
 
 const bundledContentDir = path.join(process.cwd(), "content-defaults");
 const contentDir = process.env.CONTENT_DIR ? path.resolve(process.env.CONTENT_DIR) : bundledContentDir;
-const projectsPath = path.join(contentDir, "projects.json");
-const blogsPath = path.join(contentDir, "blogs.json");
-const sitePath = path.join(contentDir, "site.json");
-
 async function ensureDirExists() {
   await fs.mkdir(contentDir, { recursive: true });
 }
@@ -58,6 +55,26 @@ async function ensureContentFile(fileName: ContentFileName) {
   }
 }
 
+async function readContent(fileName: ContentFileName): Promise<string> {
+  if (BLOB_STORAGE_ENABLED) {
+    const blobContent = await readBlobText(fileName);
+    if (blobContent !== undefined) return blobContent;
+  }
+
+  const contentPath = await ensureContentFile(fileName);
+  return fs.readFile(contentPath, "utf8");
+}
+
+async function writeContent(fileName: ContentFileName, value: string): Promise<void> {
+  if (BLOB_STORAGE_ENABLED) {
+    await writeBlobText(fileName, value);
+    return;
+  }
+
+  await ensureDirExists();
+  await fs.writeFile(path.join(contentDir, fileName), value, "utf8");
+}
+
 function writeAccessError(fileName: ContentFileName, cause: unknown) {
   const detail = cause instanceof Error ? cause.message : String(cause);
   return new Error(
@@ -87,20 +104,17 @@ function withBlogDefaults(blog: BlogPost): BlogPost {
 }
 
 export async function getProjects(): Promise<Project[]> {
-  const contentPath = await ensureContentFile("projects.json");
-  const raw = await fs.readFile(contentPath, "utf8");
+  const raw = await readContent("projects.json");
   return (JSON.parse(raw) as Project[]).map(withProjectDefaults);
 }
 
 export async function getBlogs(): Promise<BlogPost[]> {
-  const contentPath = await ensureContentFile("blogs.json");
-  const raw = await fs.readFile(contentPath, "utf8");
+  const raw = await readContent("blogs.json");
   return (JSON.parse(raw) as BlogPost[]).map(withBlogDefaults);
 }
 
 export async function getSiteConfig(): Promise<SiteConfig> {
-  const contentPath = await ensureContentFile("site.json");
-  const raw = await fs.readFile(contentPath, "utf8");
+  const raw = await readContent("site.json");
   const site = JSON.parse(raw) as SiteConfig;
 
   if (!Array.isArray(site.footerLinks) || !site.footerLinks.length) {
@@ -132,8 +146,7 @@ export async function getBlogBySlug(slug: string): Promise<BlogPost | undefined>
 
 export async function saveProjects(projects: Project[]): Promise<void> {
   try {
-    await ensureDirExists();
-    await fs.writeFile(projectsPath, JSON.stringify(projects, null, 2), "utf8");
+    await writeContent("projects.json", JSON.stringify(projects, null, 2));
   } catch (error) {
     throw writeAccessError("projects.json", error);
   }
@@ -141,8 +154,7 @@ export async function saveProjects(projects: Project[]): Promise<void> {
 
 export async function saveBlogs(posts: BlogPost[]): Promise<void> {
   try {
-    await ensureDirExists();
-    await fs.writeFile(blogsPath, JSON.stringify(posts, null, 2), "utf8");
+    await writeContent("blogs.json", JSON.stringify(posts, null, 2));
   } catch (error) {
     throw writeAccessError("blogs.json", error);
   }
@@ -150,8 +162,7 @@ export async function saveBlogs(posts: BlogPost[]): Promise<void> {
 
 export async function saveSiteConfig(site: SiteConfig): Promise<void> {
   try {
-    await ensureDirExists();
-    await fs.writeFile(sitePath, JSON.stringify(site, null, 2), "utf8");
+    await writeContent("site.json", JSON.stringify(site, null, 2));
   } catch (error) {
     throw writeAccessError("site.json", error);
   }

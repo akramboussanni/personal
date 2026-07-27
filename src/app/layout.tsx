@@ -20,11 +20,9 @@ export const metadata: Metadata = {
   },
   description: "My personal website.",
   icons: {
-    icon: [
-      { url: "/favicon-v2.ico", type: "image/x-icon" },
-      { url: "/favicon-v2.ico?v=2", type: "image/x-icon" },
-    ],
-    shortcut: "/favicon-v2.ico",
+    icon: [{ url: "/favicon.ico", type: "image/x-icon" }],
+    shortcut: "/favicon.ico",
+    apple: "/icon.png",
   },
 };
 

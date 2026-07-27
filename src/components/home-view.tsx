@@ -344,18 +344,15 @@ export function HomeView({ site, projects, blogs }: Props) {
         </section>
         </div>
 
-        <section className="skill-journey mb-24 hacker-reveal">
-          <div className="flex items-end justify-between gap-6 mb-5">
-            <div>
-              <p className="font-label text-[10px] uppercase tracking-[0.3em] text-on-surface-variant mb-2">Filter the trail</p>
-              <h2 className="font-headline text-2xl font-bold uppercase tracking-tighter">Skills in motion</h2>
-            </div>
-            {activeSkill ? (
-              <button type="button" onClick={() => setActiveSkill(null)} className="skill-filter-clear">Clear {skillLabel(activeSkill)} ×</button>
-            ) : null}
-          </div>
-          <div className="skill-filter-dock">
-            <button type="button" onClick={() => setActiveSkill(null)} className={`skill-filter-all ${activeSkill ? "" : "is-active"}`}>All work</button>
+        <section className="skill-journey mb-16 hacker-reveal">
+          <details className="skill-filter-details">
+            <summary>
+              <span className="skill-filter-summary-label">Filter projects by skill</span>
+              <span className="skill-filter-summary-value">{activeSkill ? skillLabel(activeSkill) : "All work"}</span>
+              <span className="skill-filter-summary-icon" aria-hidden="true">+</span>
+            </summary>
+            <div className="skill-filter-dock">
+              <button type="button" onClick={() => setActiveSkill(null)} className={`skill-filter-all ${activeSkill ? "" : "is-active"}`}>All work</button>
             {groupedSkills.map((group, groupIndex) => (
               <div className="skill-filter-group" key={group.label}>
                 <span>{String(groupIndex + 1).padStart(2, "0")} / {sentenceCase(group.label)}</span>
@@ -375,7 +372,8 @@ export function HomeView({ site, projects, blogs }: Props) {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          </details>
         </section>
 
         <section className="mb-24 hacker-reveal">

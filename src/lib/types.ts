@@ -14,6 +14,7 @@ export type Project = {
   title: string;
   summary: string;
   year: string;
+  startedAt?: string;
   category: string;
   specs?: Array<{
     label: string;
